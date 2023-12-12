@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}Accueil{% endblock %}</title>
+        <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
         {% block stylesheets %}
         {% endblock %}
 
@@ -11,6 +12,20 @@
         {% endblock %}
     </head>
     <body>
+    <div>
+        <nav class="navbar bg-black">
+            <h1>PR-51-SRV</h1>
+            {% if app.user == false %}
+                <div class="nav-link"><a href="{{ path('app_login') }}">Connexion</a></div>
+                <div class="nav-link"><a href="{{ path('app_register') }}">Inscription</a></div>
+            {% else %}
+                <div class="mb-3">
+                    You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Déconnexion</a>
+                </div>
+            {% endif %}
+        </nav>
+    </div>
         {% block body %}{% endblock %}
+        <script src="{{ asset('js/bootstrap.bundle.min.js') }}" ></script>
     </body>
 </html>
