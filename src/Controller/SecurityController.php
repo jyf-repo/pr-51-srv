@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -39,5 +40,16 @@ class SecurityController extends AbstractController
         return $this->render('security/users.html.twig', [
             'users' => $users
         ]);
+    }
+    #[Route(path: '/{id}', name: 'app_users_del')]
+    public function delete_user($id, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
+    {
+        //$users = $userRepository->findAll();
+        $user = $userRepository->findOneBy(['id'=>$id]);
+        //dd($user);
+        $entityManager->remove($user);
+        $entityManager->flush();
+        //dd($users);
+        return $this->redirect($this->generateUrl('app_users'));
     }
 }

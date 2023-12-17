@@ -4,6 +4,6 @@
 
 {% block body %}
 {% for user in users %}
-    {{ user.email }} {{ user.roles[0] }} {{ user.verified }} <a href="#">Modifier</a> <a href="#">Supprimer</a> <br>
+    {{ user.email }} {{ user.roles[0] }} {{ user.verified }} <a href="#">Modifier</a> <a href="{{ path('app_users_del', {'id': user.id}) }}">Supprimer</a> <br>
 {% endfor %}
 {% endblock %}
