@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Utilisateurs{% endblock %}
+
+{% block body %}
+{% for user in users %}
+    {{ user.email }} {{ user.roles[0] }} {{ user.verified }} <a href="#">Modifier</a> <a href="#">Supprimer</a> <br>
+{% endfor %}
+{% endblock %}

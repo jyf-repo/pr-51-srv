@@ -21,6 +21,7 @@
             {% else %}
                 <div class="mb-3">
                     You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Déconnexion</a>
+                    <div class="nav-link"><a href="{{ path('app_users') }}">Utilisateurs</a></div>
                 </div>
             {% endif %}
         </nav>
