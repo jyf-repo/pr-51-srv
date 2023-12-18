@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use http\Message;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
@@ -32,7 +34,8 @@ class SecurityController extends AbstractController
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 
-    #[Route(path: '/users', name: 'app_users')]
+    #[Route(path: '/admin/users', name: 'app_admin_users')]
+    #[IsGranted('ROLE_SUPER_ADMIN', message: 'Accés interdit')]
     public function users(UserRepository $userRepository): Response
     {
         $users = $userRepository->findAll();
@@ -50,6 +53,6 @@ class SecurityController extends AbstractController
         $entityManager->remove($user);
         $entityManager->flush();
         //dd($users);
-        return $this->redirect($this->generateUrl('app_users'));
+        return $this->redirect($this->generateUrl('app_admin_users'));
     }
 }
