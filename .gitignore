@@ -9,7 +9,7 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
-
+.README.txt
 ###> phpunit/phpunit ###
 /phpunit.xml
 .phpunit.result.cache

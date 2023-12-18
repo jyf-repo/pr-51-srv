@@ -12,20 +12,34 @@
         {% endblock %}
     </head>
     <body>
-    <div>
-        <nav class="navbar bg-black">
-            <h1>PR-51-SRV</h1>
-            {% if app.user == false %}
-                <div class="nav-link"><a href="{{ path('app_login') }}">Connexion</a></div>
-                <div class="nav-link"><a href="{{ path('app_register') }}">Inscription</a></div>
-            {% else %}
-                <div class="mb-3">
-                    You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Déconnexion</a>
-                    <div class="nav-link"><a href="{{ path('app_users') }}">Utilisateurs</a></div>
+        <nav class="navbar bg-light">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a class="navbar-brand mb-0 h1" href="{{ path('app_home') }}">PR-51-SRV</a>
+                <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">PR-51-SRV</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        {% if app.user == false %}
+                            <a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
+                            <a class="nav-link" href="{{ path('app_register') }}">Inscription</a>
+                        {% else %}
+                            <div class="mb-3">
+                                <a class="nav-link" href="{{ path('app_users') }}">Utilisateurs</a>
+                                <a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
+                            </div>
+                        {% endif %}
+                    </div>
                 </div>
-            {% endif %}
+            </div>
         </nav>
-    </div>
+        {% if app.user %}
+            <div class="mb-3">Vous etes connecté en tant que {{ app.user.userIdentifier }}</div>
+        {% endif %}
         {% block body %}{% endblock %}
         <script src="{{ asset('js/bootstrap.bundle.min.js') }}" ></script>
     </body>
