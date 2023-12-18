@@ -26,7 +26,6 @@
                     <div class="offcanvas-body">
                         {% if app.user == false %}
                             <a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
-                            <a class="nav-link" href="{{ path('app_register') }}">Inscription</a>
                         {% else %}
                             <div class="mb-3">
                                 <a class="nav-link" href="{{ path('app_admin_users') }}">Utilisateurs</a>
