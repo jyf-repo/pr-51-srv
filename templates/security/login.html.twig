@@ -22,9 +22,12 @@
                            value="{{ csrf_token('authenticate') }}"
                     >
 
-                    <button class="btn btn-sm btn-primary" type="submit">
-                        Connexion
-                    </button>
+                    <a href="{{ path('app_forgot_password_request') }}">Mot de passe oublié</a>
+                    <div>
+                        <button class="btn btn-sm btn-primary" type="submit">
+                            Connexion
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
