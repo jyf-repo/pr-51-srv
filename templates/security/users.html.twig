@@ -3,7 +3,50 @@
 {% block title %}Utilisateurs{% endblock %}
 
 {% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                Email
+            </div>
+            <div class="col">
+                Rôle
+            </div>
+            <div class="col">
+                Profil vérifié
+            </div>
+            <div class="col">
+                Modification
+            </div>
+            <div class="col">
+                Suppression
+            </div>
+        </div>
+    </div>
 {% for user in users %}
-    {{ user.email }} {{ user.roles[0] }} {{ user.verified }} <a href="#">Modifier</a> <a href="{{ path('app_users_del', {'id': user.id}) }}">Supprimer</a> <br>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                {{ user.email }}
+            </div>
+            <div class="col">
+                {{ user.roles[0] }}
+            </div>
+            <div class="col">
+                {% if user.verified == null %}
+                    <p>Non</p>
+                {% else %}
+                    <p>Oui</p>
+                {% endif %}
+            </div>
+            <div class="col">
+                <a href="#">Modifier</a>
+            </div>
+            <div class="col">
+                <a href="{{ path('app_users_del', {'id': user.id}) }}">Supprimer</a>
+            </div>
+        </div>
+    </div>
 {% endfor %}
+
+
 {% endblock %}

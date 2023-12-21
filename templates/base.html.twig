@@ -17,6 +17,9 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                {% if app.user %}
+                    <div>{{ app.user.userIdentifier }} connecté.</div>
+                {% endif %}
                 <a class="navbar-brand mb-0 h1" href="{{ path('app_home') }}">PR-51-SRV</a>
                 <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                     <div class="offcanvas-header">
@@ -36,9 +39,7 @@
                 </div>
             </div>
         </nav>
-        {% if app.user %}
-            <div class="mb-3">Vous etes connecté en tant que {{ app.user.userIdentifier }}</div>
-        {% endif %}
+
         {% block body %}{% endblock %}
         <script src="{{ asset('js/bootstrap.bundle.min.js') }}" ></script>
     </body>
