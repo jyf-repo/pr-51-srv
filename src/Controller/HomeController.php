@@ -4,7 +4,8 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class HomeController extends AbstractController
 {
@@ -17,9 +18,11 @@ class HomeController extends AbstractController
     }
 
     #[Route('/inside', name: 'app_inside')]
+    #[IsGranted('ROLE_ADMIN', message: 'Accés interdit')]
     public function inside(): Response
     {
-        return $this->render('home/inside.html.twig', [
+        return $this->render(
+            'home/inside.html.twig', [
 
         ]);
     }
