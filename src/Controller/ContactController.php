@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Form\ContactFormType;
+use phpDocumentor\Reflection\Types\Context;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,12 +32,17 @@ class ContactController extends AbstractController
             $contentForm = $form->getData();
 
             // Action: send an email:
-            $email = (new Email())
+            $email = (new TemplatedEmail())
                 ->from($contentForm['email_contact'])
                 ->to('jeanyvesfournet@icloud.com')
                 ->subject($contentForm['email_subject'])
-                ->text($contentForm['email_content'])
-                ->html('<h2>this is a html content</h2>');
+
+                ->htmlTemplate('contact/contact_email.html.twig')
+
+                ->context([
+                    'contactEmail' => $contentForm['email_contact'],
+                    'contentMail' => $contentForm['email_content']
+                ]);
 
             $mailer->send($email);
 
