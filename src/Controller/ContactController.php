@@ -32,7 +32,7 @@ class ContactController extends AbstractController
             // Action: send an email:
             $email = (new Email())
                 ->from($contentForm['email_contact'])
-                ->to('jeanyvesfournet@test.com')
+                ->to('jeanyvesfournet@icloud.com')
                 ->subject($contentForm['email_subject'])
                 ->text($contentForm['email_content'])
                 ->html('<h2>this is a html content</h2>');
