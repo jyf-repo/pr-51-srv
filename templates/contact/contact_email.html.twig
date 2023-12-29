@@ -1,11 +1,23 @@
+<style>
+    .container{
+        font-family: Verdana, sans-serif;
+        margin-left: 50px;
+        width: 500px;
+    }
+    h1{
+        background-color: darkseagreen;
+        padding: 5px;
+        color: white;
+    }
+    .content{
+        background-color: lightgray;
+        padding: 5px;
+    }
+</style>
 <div class="container">
-    <h1>Medicontis by GranPharma</h1>
-<h3>Vous avez reçu un message de {{ contactEmail }}</h3>
-    <div class="container">
-        <div class="row">
-            <div class="bg-light mt-4 p-4">
-                {{ contentMail }}
-            </div>
-        </div>
+    <h1>Medicontis App by GranPharma</h1>
+    <h3>Vous avez reçu un message de {{ contactEmail }}</h3>
+    <div class="content">
+        {{ contentMail }}
     </div>
 </div>

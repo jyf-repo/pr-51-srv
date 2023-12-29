@@ -15,7 +15,7 @@ class EmailService
     {
         $email = (new TemplatedEmail())
             ->from($emailContact)
-            ->to('jeanyvesfournet@icloud.com')
+            ->to('contact@medicontis.com')
             ->subject($emailSubject)
 
             ->htmlTemplate('contact/contact_email.html.twig')
