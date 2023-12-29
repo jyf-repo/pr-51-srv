@@ -9,10 +9,22 @@ security:
             entity:
                 class: App\Entity\User
                 property: email
+
+        api_site_provider:
+            entity:
+                class: App\Entity\User
+                property: api_key_auth
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        # Be careful, the dump in the code may block the api request: better make a JsonResponse (keep the dump for postman tests)
+        api:
+            pattern: ^/api
+            stateless: true
+            provider: api_site_provider
+            custom_authenticator: App\Security\ApiClientAuthenticator
+
         main:
             lazy: true
             provider: app_user_provider
@@ -20,14 +32,13 @@ security:
             logout:
                 path: app_logout
                 # where to redirect after logout
-                # target: app_any_route
+                target: app_login
 
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 604800
                 path: /
                 always_remember_me: true
-
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 

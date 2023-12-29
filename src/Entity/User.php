@@ -32,6 +32,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
+    #[ORM\Column(length: 255)]
+    private ?string $api_key_auth = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -110,6 +113,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getApiKeyAuth(): ?string
+    {
+        return $this->api_key_auth;
+    }
+
+    public function setApiKeyAuth(string $api_key_auth): static
+    {
+        $this->api_key_auth = $api_key_auth;
 
         return $this;
     }

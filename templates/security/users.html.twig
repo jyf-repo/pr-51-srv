@@ -12,6 +12,9 @@
                 Rôle
             </div>
             <div class="col">
+                Key
+            </div>
+            <div class="col">
                 Profil vérifié
             </div>
             <div class="col">
@@ -30,6 +33,9 @@
             </div>
             <div class="col">
                 {{ user.roles[0] }}
+            </div>
+            <div class="col">
+                {{ user.apiKeyAuth }}
             </div>
             <div class="col">
                 {% if user.verified == null %}
