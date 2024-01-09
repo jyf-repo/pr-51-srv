@@ -32,7 +32,9 @@
                 {{ user.email }}
             </div>
             <div class="col">
-                {{ user.roles[0] }}
+                {% for key in user.roles %}
+                    {{ key }}
+                {% endfor %}
             </div>
             <div class="col">
                 {{ user.apiKeyAuth }}

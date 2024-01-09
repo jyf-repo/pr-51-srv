@@ -30,11 +30,11 @@ class ApiClientAuthenticator extends AbstractAuthenticator
     public function authenticate(Request $request): SelfValidatingPassport
     {
         $apiKey = $request->headers->get('api_key_auth');
-        //dd($apiKey);
+        dump($apiKey);
         if (null === $apiKey) {
             // The token header was empty, authentication fails with HTTP Status
             // Code 401 "Unauthorized"
-            throw new CustomUserMessageAuthenticationException('No API KEY provided');
+            throw new CustomUserMessageAuthenticationException('No API KEY provided '.$apiKey);
         }
 
         return new SelfValidatingPassport(
