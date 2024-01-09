@@ -24,4 +24,6 @@
     composer install
     composer require symphony/apache-pack
 
-
+    # to allow cors origin :
+    insert allow-origin-cors in the .env with nelmio system
+    And modify headers allow-origin-cors in the virtualhost or in the .htaccess
