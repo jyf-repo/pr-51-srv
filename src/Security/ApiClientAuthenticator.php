@@ -65,7 +65,7 @@ class ApiClientAuthenticator extends AbstractAuthenticator
             // or to translate this message
             // $this->translator->trans($exception->getMessageKey(), $exception->getMessageData())
         ];
-        dd($data);
+        //dd($data);
         return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);
     }
 
