@@ -52,7 +52,7 @@ class ContactController extends AbstractController
     #[Route('/api/contact', name: 'api_contact', methods: 'POST')]
     public function contact_client(Request $request, EmailService $emailService)
     {
-        $apikey = $request->headers->get('api_key_auth');
+        $apikey = $request->headers->get('apiKeyAuth');
         $emailString = $request->getContent();
         $emailJson = json_decode($emailString);
         // dd($emailJson->email_contact);
