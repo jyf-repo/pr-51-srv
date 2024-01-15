@@ -29,8 +29,8 @@ class ApiClientAuthenticator extends AbstractAuthenticator
 
     public function authenticate(Request $request): SelfValidatingPassport
     {
-        $apiKey = $request->headers->get('apiKeyAuth');//apiKeyAuth is in the request header
-        dump($apiKey);
+        $apiKey = $request->headers->get('apiKeyAuth');// "apiKeyAuth" is the field in the request header
+        //dump($apiKey);
         if (null === $apiKey) {
             // The token header was empty, authentication fails with HTTP Status
             // Code 401 "Unauthorized"
@@ -40,8 +40,8 @@ class ApiClientAuthenticator extends AbstractAuthenticator
         return new SelfValidatingPassport(
             new UserBadge($apiKey, function($apiKey){
 
-                $user = $this->userRepository->findOneBy(['api_key_auth'=> $apiKey]);//api_key_auth is in the database (no confusion with the request header)
-
+                $user = $this->userRepository->findOneBy(['api_key_auth'=> $apiKey]);// field "api_key_auth" is in the database (no confusion with the request header "apiKeyAuth")
+                //dump($user);
                 if(!$user) {
                     throw new UserNotFoundException();
                 }
