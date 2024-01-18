@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Calendrier{% endblock %}
+{%  block javascripts %}
+    <script src={{ asset('/assets/calendar/base/index.global.min.js') }}></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                themeSystem: 'bootstrap5',
+                locale: 'fr'
+            });
+            calendar.render();
+        });
+
+    </script>
+{% endblock %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="bg-light mt-4 p-4">
+            <div id='calendar'></div>
+        </div>
+    </div>
+</div>
+{% endblock %}

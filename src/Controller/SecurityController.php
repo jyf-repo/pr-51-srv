@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use http\Message;
@@ -36,7 +37,7 @@ class SecurityController extends AbstractController
 
     #[Route(path: '/admin/users', name: 'app_admin_users')]
     #[IsGranted('ROLE_SUPER_ADMIN', message: 'Accés interdit')]
-    public function users(UserRepository $userRepository): Response
+    public function showUsers(UserRepository $userRepository): Response
     {
         $users = $userRepository->findAll();
         //dd($users);
@@ -45,14 +46,11 @@ class SecurityController extends AbstractController
         ]);
     }
     #[Route(path: '/{id}', name: 'app_users_del')]
-    public function delete_user($id, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
+    public function delete_user( User $user, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
     {
-        //$users = $userRepository->findAll();
-        $user = $userRepository->findOneBy(['id'=>$id]);
-        //dd($user);
-        $entityManager->remove($user);
-        $entityManager->flush();
-        //dd($users);
-        return $this->redirect($this->generateUrl('app_admin_users'));
+            $entityManager->remove($user);
+            $entityManager->flush();
+
+            return $this->redirect($this->generateUrl('app_admin_users'));
     }
 }

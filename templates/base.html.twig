@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}Accueil{% endblock %}</title>
         <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/bootstrap-icons.css') }}">
         {% block stylesheets %}
         {% endblock %}
 
@@ -34,6 +35,8 @@
                                 <a class="nav-link" href="{{ path('app_admin_users') }}">Utilisateurs</a>
                                 <a class="nav-link" href="{{ path('app_contact') }}">Contacts</a>
                                 <a class="nav-link" href="{{ path('app_new_product') }}">Produits</a>
+                                <a class="nav-link" href="{{ path('app_calendar') }}">Calendrier</a>
+                                <a class="nav-link" href="{{ path('app_log_error') }}">Messages log</a>
                                 <a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
                             </div>
                         {% endif %}

@@ -3,27 +3,28 @@
 {% block title %}Utilisateurs{% endblock %}
 
 {% block body %}
+
     <div class="container">
-        <div class="row">
-            <div class="col">
-                Email
+            <div class="row">
+                <div class="col">
+                    Email
+                </div>
+                <div class="col">
+                    Rôle
+                </div>
+                <div class="col">
+                    Key
+                </div>
+                <div class="col">
+                    Profil vérifié
+                </div>
+                <div class="col">
+                    Modification
+                </div>
+                <div class="col">
+                    Suppression
+                </div>
             </div>
-            <div class="col">
-                Rôle
-            </div>
-            <div class="col">
-                Key
-            </div>
-            <div class="col">
-                Profil vérifié
-            </div>
-            <div class="col">
-                Modification
-            </div>
-            <div class="col">
-                Suppression
-            </div>
-        </div>
     </div>
 {% for user in users %}
     <div class="container">
@@ -52,6 +53,7 @@
             <div class="col">
                 <a href="{{ path('app_users_del', {'id': user.id}) }}">Supprimer</a>
             </div>
+
         </div>
     </div>
 {% endfor %}
