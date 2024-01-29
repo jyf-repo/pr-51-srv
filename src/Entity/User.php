@@ -44,6 +44,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $phonenumber = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $clientToken = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -170,6 +173,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPhonenumber(?string $phonenumber): static
     {
         $this->phonenumber = $phonenumber;
+
+        return $this;
+    }
+
+    public function getClientToken(): ?string
+    {
+        return $this->clientToken;
+    }
+
+    public function setClientToken(?string $clientToken): static
+    {
+        $this->clientToken = $clientToken;
 
         return $this;
     }

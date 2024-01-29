@@ -1,0 +1,6 @@
+{% block body %}
+    {{ form_start(reset_pwd_form) }}
+    {{ form_row(reset_pwd_form.plainPassword) }}
+    <button class="btn btn-primary">Réinitialiser</button>
+    {{ form_end(reset_pwd_form) }}
+{% endblock %}

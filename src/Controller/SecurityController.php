@@ -3,20 +3,22 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\ChangePasswordFormType;
 use App\Repository\UserRepository;
-use App\Service\EmailService;
 use Doctrine\ORM\EntityManagerInterface;
-use http\Message;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelper;
-use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 
 class SecurityController extends AbstractController
 {
@@ -38,7 +40,7 @@ class SecurityController extends AbstractController
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void
     {
-        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+
     }
 
     #[Route(path: '/admin/users', name: 'app_admin_users')]
@@ -52,7 +54,7 @@ class SecurityController extends AbstractController
         ]);
     }
     #[Route(path: '/{id}', name: 'app_users_del')]
-    public function delete_user( User $user, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
+    public function delete_user( User $user, EntityManagerInterface $entityManager): Response
     {
             $entityManager->remove($user);
             $entityManager->flush();
@@ -60,15 +62,65 @@ class SecurityController extends AbstractController
             return $this->redirect($this->generateUrl('app_admin_users'));
     }
 
-    #[Route('/api/forgot/pwd', name: 'api_forgot_pwd')]
-    public function forgotClientPwd(Request $request, UserRepository $userRepository, EmailService $emailService){
+    /**
+     * @throws TransportExceptionInterface
+     */
+    #[Route('/reset_password/api/forgot/pwd', name: 'api_forgot_pwd', methods: 'POST')] //url start by reset_password and not api because of the apiKeyAuth
+    public function forgotClientPwd(Request $request, UserRepository $userRepository, TokenGeneratorInterface $tokenGenerator, MailerInterface $mailer, EntityManagerInterface $entityManager): Response
+    {
         $email = json_decode($request->getContent());
-        if($userRepository->findOneBy(['email' => $email])){
-            $emailService->send_email($email, 'Réinitialisation du mot de passe', 'Veuillez suivre ce lien');
+        $user = $userRepository->findOneBy(['email' => $email]);
+        if($user){
+            $resetToken = $tokenGenerator->generateToken();
+            $user->setClientToken($resetToken);
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            $url = $this->generateUrl('api_reset_pwd', ['token'=> $resetToken], UrlGeneratorInterface::ABSOLUTE_URL);
+
+            $total_email = (new TemplatedEmail())
+                ->from(new Address('administration@granpharma.com', 'GRANPHARMA'))
+                ->to($email)
+                ->subject('Réinitialisation de mot de passe')
+                ->htmlTemplate('reset_password_client/email_client.html.twig')
+                ->context([
+                    'user' => $user,
+                    'url' => $url
+                ])
+            ;
+            $mailer->send($total_email);
             return $this->json('Email valable');
         } else {
             return $this->json('Adresse email invalide');
         }
 
+    }
+
+    #[Route('/reset_password/api/reset/{token}', name: 'api_reset_pwd')] // url start by reset_password and not api because of the apiKeyAuth
+    public  function resetClientPwd($token , UserRepository $userRepository, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    {
+        $user = $userRepository->findOneBy(['clientToken' => $token]);
+        if($user){
+            $form = $this->createForm(ChangePasswordFormType::class);
+            $form->handleRequest($request);
+            if($form->isSubmitted() && $form->isValid()){
+                // clean token
+                $user->setClientToken('');
+                $user->setPassword(
+                    $userPasswordHasher->hashPassword(
+                        $user,
+                        $form->get('plainPassword')->getData()
+                    )
+                );
+                $entityManager->persist($user);
+                $entityManager->flush();
+
+                return $this->redirect($this->getParameter("url_client_app"));
+            }
+            return $this->render('/reset_password_client/reset_pwd.html.twig', [
+               'reset_pwd_form' => $form->createView()
+            ]);
+        }
+        return $this->redirect($this->getParameter('url_client_app'));
     }
 }
