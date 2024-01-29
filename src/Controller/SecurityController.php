@@ -4,13 +4,19 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Service\EmailService;
 use Doctrine\ORM\EntityManagerInterface;
 use http\Message;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelper;
+use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 
 class SecurityController extends AbstractController
 {
@@ -52,5 +58,17 @@ class SecurityController extends AbstractController
             $entityManager->flush();
 
             return $this->redirect($this->generateUrl('app_admin_users'));
+    }
+
+    #[Route('/api/forgot/pwd', name: 'api_forgot_pwd')]
+    public function forgotClientPwd(Request $request, UserRepository $userRepository, EmailService $emailService){
+        $email = json_decode($request->getContent());
+        if($userRepository->findOneBy(['email' => $email])){
+            $emailService->send_email($email, 'Réinitialisation du mot de passe', 'Veuillez suivre ce lien');
+            return $this->json('Email valable');
+        } else {
+            return $this->json('Adresse email invalide');
+        }
+
     }
 }
