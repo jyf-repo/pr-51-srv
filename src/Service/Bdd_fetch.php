@@ -52,7 +52,7 @@ use function MongoDB\BSON\toJSON;
             $global_url
         );
 
-        $statusCode = $response->getStatusCode(); dump($statusCode);
+        $statusCode = $response->getStatusCode(); //dump($statusCode);
         // $contentType = $response->getHeaders()['content-type'][0]; dump($contentType);
         if($statusCode == 200){
                 $content = $response->getContent(); // dump($content);
