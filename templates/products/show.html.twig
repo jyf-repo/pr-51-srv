@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <style>
+        .search_form {
+            width: 100%;
+            max-width: 330px;
+            padding: 15px;
+            margin: 0 auto;
+        }
+        .inside_form {
+            display: flex;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+    <div class="search_form">
+        {{ form_start(form) }}
+        <div class="inside_form">
+            <div>{{  form_widget(form.ean, {'attr': {'placeholder': 'Produit, ean 13'}}) }}</div>
+            <button type="submit" class="btn btn-light btn-sm"><i class="bi bi-search"></i></button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+
+
+
+{% endblock %}

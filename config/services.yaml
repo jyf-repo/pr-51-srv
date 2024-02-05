@@ -5,6 +5,9 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     url_client_app: '%env(URL_CLIENT_APP)%'
+    url_bdd_api: '%env(URL_BDD_API)%'
+    bdd_med_id: '%env(BDD_MED_ID)%'
+    bdd_key: '%env(BDD_KEY)%'
 services:
     # default configuration for services in *this* file
     _defaults:

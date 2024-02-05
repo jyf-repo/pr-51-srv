@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <style>
+        .container{
+            display: grid;
+
+        }
+    </style>
+{% endblock %}
+{% block body %}
+    <div class="container">
+
+    <h3>Votre recherche: </h3>
+
+        {% if req == 'numeric' %}
+            {%  for key, item in product %}
+                {% if item is not iterable %}
+                    <p><strong>{{ key }}</strong>: {{ item }}</p>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <h3>Vous avez {{ product | length }} résultat(s) (maximum: 25 résulats)</h3>
+            <hr>
+
+            {% for search in product %}
+                {% for key, item in search %}
+                    {% if item is not iterable %}
+                        <p><strong>{{ key }}</strong>: {{ item }}</p>
+                    {% endif %}
+                {% endfor %}
+                <hr>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endblock %}
+
