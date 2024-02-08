@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+    {% for prescription in prescriptions %}
+{#        {{ dump(prescription) }}#}
+        <p>Patient: {{ prescription.userId.id }}</p>
+        <a href="{{ asset('uploads/prescriptions/' ~ prescription.prescriptionFileName) }}">Voir prescription {{ prescription.prescriptionFileName }}</a>
+    <hr>
+    {% endfor %}
+    </div>
+{% endblock %}
+
+{% block title %}
+Prescriptions
+{% endblock %}
+

@@ -5,40 +5,53 @@
 {% block body %}
 
     <div class="container">
-            <div class="row">
-                <div class="col">
+            <div class="row bg-success-subtle">
+                <div class="col-3">
                     Email
                 </div>
-                <div class="col">
+                <div class="col-2">
                     Rôle
                 </div>
                 <div class="col">
                     Key
                 </div>
                 <div class="col">
-                    Profil vérifié
+                    vérifié
                 </div>
                 <div class="col">
-                    Modification
+
                 </div>
                 <div class="col">
-                    Suppression
+
+                </div>
+                <div class="col">
+
                 </div>
             </div>
     </div>
 {% for user in users %}
-    <div class="container">
+    <div class="container bg-info-subtle">
         <div class="row">
-            <div class="col">
+            <div class="col-3">
                 {{ user.email }}
             </div>
-            <div class="col">
-                {% for key in user.roles %}
-                    {{ key }}
+            <div class="col-2">
+                {% for role in user.roles %}
+                    {% if role is same as 'ROLE_CLIENT' %}
+                        <p>client</p>
+                        {% set break = true %}
+                    {% elseif role is same as 'ROLE_SUPER_ADMIN' %}
+                        <p>supadmin</p>
+                    {% endif %}
                 {% endfor %}
             </div>
-            <div class="col">
-                {{ user.apiKeyAuth }}
+            <div class="col dropdown">
+                <div class="dropdown-toggle" type="button" id="dropdownEye" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-eye"></i>
+                </div>
+                <ul class="dropdown-menu" aria-labelledby="dropdownEye">
+                    <li>{{ user.apiKeyAuth }}</li>
+                </ul>
             </div>
             <div class="col">
                 {% if user.verified == null %}
@@ -48,10 +61,13 @@
                 {% endif %}
             </div>
             <div class="col">
-                <a href="#">Modifier</a>
+                <a href="{{ path('app_upload_filePrescription', {'userId': user.id}) }}"><i class="bi bi-file-earmark-medical"></i></a>
             </div>
             <div class="col">
-                <a href="{{ path('app_users_del', {'id': user.id}) }}">Supprimer</a>
+                <a href="#"><i class="bi bi-pencil-square"></i></a>
+            </div>
+            <div class="col">
+                <a href="{{ path('app_users_del', {'id': user.id}) }}"><i class="bi bi-trash"></i></a>
             </div>
 
         </div>
