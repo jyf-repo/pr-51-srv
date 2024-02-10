@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AllUserController!{% endblock %}
+
+{% block body %}
+<div class="container">
+    <p><strong>Prénom:</strong> {{ user.firstname }}</p>
+    <p><strong>Nom: </strong>{{ user.lastname }}</p>
+    <p><strong>Email: </strong>{{ user.email }}</p>
+    <p><strong>Téléphone: </strong>{{ user.phonenumber }}</p>
+</div>
+{% endblock %}

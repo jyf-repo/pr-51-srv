@@ -33,7 +33,7 @@
     <div class="container bg-info-subtle">
         <div class="row">
             <div class="col-3">
-                {{ user.email }}
+                <a href="{{ path('app_all_user', {'id': user.id}) }}">{{ user.email }}</a>
             </div>
             <div class="col-2">
                 {% for role in user.roles %}

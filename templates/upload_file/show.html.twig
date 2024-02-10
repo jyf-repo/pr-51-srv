@@ -5,7 +5,8 @@
     {% for prescription in prescriptions %}
 {#        {{ dump(prescription) }}#}
         <p>Patient: {{ prescription.userId.id }}</p>
-        <a href="{{ asset('uploads/prescriptions/' ~ prescription.prescriptionFileName) }}">Voir prescription {{ prescription.prescriptionFileName }}</a>
+        <p>Voir prescription: <a href="{{ asset('uploads/prescriptions/' ~ prescription.prescriptionFileName) }}">{{ prescription.prescriptionFileName }}</a></p>
+        <a href="{{ path('app_admin_users') }}">Retour</a>
     <hr>
     {% endfor %}
     </div>

@@ -3,5 +3,8 @@
 {% block title %}Chargement de fichier{% endblock %}
 
 {% block body %}
- {{ form(prescriptionForm) }}
+ <div class="container">
+  {{ form(prescriptionForm) }}
+  <a href="{{ path('app_admin_users') }}">Retour</a>
+ </div>
 {% endblock %}
