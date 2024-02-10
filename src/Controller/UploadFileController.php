@@ -7,6 +7,7 @@ use App\Entity\Prescription;
 use App\Form\PrescriptionFormType;
 use App\Repository\PrescriptionRepository;
 use App\Repository\UserRepository;
+use App\Service\EmailService;
 use App\Service\FileUploader;
 use App\Service\FileUploaderApi;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,7 +16,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -63,7 +64,7 @@ class UploadFileController extends AbstractController
     }
 
     #[Route('/upload/api/prescription/{userId}', name: 'upload_api_prescription')]
-    public function client_prescription_upload($userId, SerializerInterface $serializer, UserRepository $userRepository, ValidatorInterface $validator, Request $request, FileUploaderApi $fileUploader, EntityManagerInterface $entityManager): Response
+    public function client_prescription_upload($userId, SerializerInterface $serializer, UserRepository $userRepository, ValidatorInterface $validator, Request $request, FileUploaderApi $fileUploader, EntityManagerInterface $entityManager, EmailService $emailService): Response
     {
         $prescription = new Prescription();
         $user_identify = $userRepository->findOneBy(['id'=>$userId]);
@@ -128,6 +129,7 @@ class UploadFileController extends AbstractController
         $entityManager->persist($prescription);
         $entityManager->flush();
 
+        $emailService->send_email($user_identify->getEmail(), 'Nouvelle ordonnance', 'Une ordonnance a été deposée dans l\'espace client');
         return new JsonResponse('ordonnance envoyée!!');
     }
 }
