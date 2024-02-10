@@ -8,6 +8,11 @@
     <p><strong>Nom: </strong>{{ user.lastname }}</p>
     <p><strong>Email: </strong>{{ user.email }}</p>
     <p><strong>Téléphone: </strong>{{ user.phonenumber }}</p>
-    <a href="{{ path('app_admin_users') }}">Retour</a>
+    <p><strong>Prescriptions: </strong></p>
+    {% for prescription in user.prescriptions %}
+        <p><a href="{{ asset('uploads/prescriptions/' ~ prescription.prescriptionFileName) }}">{{ prescription.prescriptionFileName }}</a></p>
+    {% endfor %}
+    <hr>
+    <p><a href="{{ path('app_admin_users') }}">Retour</a></p>
 </div>
 {% endblock %}
