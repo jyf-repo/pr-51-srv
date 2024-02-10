@@ -3,7 +3,6 @@
 namespace App\Security;
 
 use App\Repository\UserRepository;
-use App\Repository\WebsitesRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,7 +12,6 @@ use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationExc
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
-use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 
 class ApiClientAuthenticator extends AbstractAuthenticator
@@ -24,7 +22,7 @@ class ApiClientAuthenticator extends AbstractAuthenticator
     }
     public function supports(Request $request): ?bool
     {
-        return true;
+        return $request->headers->has('apiKeyAuth');
     }
 
     public function authenticate(Request $request): SelfValidatingPassport
@@ -34,7 +32,7 @@ class ApiClientAuthenticator extends AbstractAuthenticator
         if (null === $apiKey) {
             // The token header was empty, authentication fails with HTTP Status
             // Code 401 "Unauthorized"
-            throw new CustomUserMessageAuthenticationException('No API KEY provided '.$apiKey);
+            throw new CustomUserMessageAuthenticationException('No API KEY provided ');
         }
 
         return new SelfValidatingPassport(
@@ -46,7 +44,7 @@ class ApiClientAuthenticator extends AbstractAuthenticator
                     throw new UserNotFoundException();
                 }
                 return $user;
-            })
+            }),
         );
     }
 

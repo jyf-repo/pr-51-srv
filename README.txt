@@ -1,5 +1,5 @@
-
-
+api login/check needs a listener named AuthenticationSuccessListener (see doc: https://github.com/lexik/LexikJWTAuthenticationBundle/blob/3.x/Resources/doc/2-data-customization.rst#id7)
+to send data user to the client App.
 
 
 
