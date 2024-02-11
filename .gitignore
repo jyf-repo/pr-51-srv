@@ -6,7 +6,7 @@
 /config/secrets/prod/prod.decrypt.private.php
 /migrations
 /public/bundles/
-/public/uploads/prescriptions
+#/public/uploads/prescriptions
 /var/
 /vendor/
 ###< symfony/framework-bundle ###

@@ -101,19 +101,20 @@ class UploadFileController extends AbstractController
             $uploadedFile,
             [
                 new NotBlank([
-                    'message' => 'Please select a file to upload'
+                    'message' => 'Merci de sélectionner un fichier à transmettre'
                 ]),
                 new File([
-                    'maxSize' => '5M',
+                    'maxSize' => '1M',
                     'mimeTypes' => [
-                        'image/*',
+                        //'image/*',
                         'application/pdf',
-                        'application/msword',
-                        'application/vnd.ms-excel',
-                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                        'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-                        'text/plain'
+                        'application/x-pdf',
+                        //'application/msword',
+                        //'application/vnd.ms-excel',
+                        //'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                        //'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                        //'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+                        //'text/plain'
                     ]
                 ])
             ]
