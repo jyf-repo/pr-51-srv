@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container" style="display: flex">
+    {%  for product in products %}
+        <div class="card" style="width: 18rem;">
+        <img src="{{ absolute_url(asset('uploads/images/'~product.imageName)) }}" alt="{{ product.name }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <p class="card-text">{{ product.description }}</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Code ean: {{ product.ean }}</li>
+                <li class="list-group-item">Prix: {{ product.price }}€</li>
+            </ul>
+            <div class="card-body">
+                <a href="#">Modifier</a>
+                <a href="#">Supprimer</a>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+
+{% endblock %}
+

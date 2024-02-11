@@ -9,9 +9,12 @@ use App\Repository\ProductsRepository;
 use App\Service\Bdd_fetch;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
@@ -21,22 +24,46 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 class ApiProductsController extends AbstractController
 {
     #[Route('/new/product', name: 'app_new_product')]
-    public function index(Request $request, EntityManagerInterface $entityManager): Response
+    public function index(Request $request, SluggerInterface $slugger, EntityManagerInterface $entityManager): Response
     {
         $product = new Products();
         $form = $this->createForm(ApiProductsFormType::class, $product);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $product = $form->getData();
+            $imageFile = $form->get('image')->getData();
+            if($imageFile){
+                $originalImageFile = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeImagename = $slugger->slug($originalImageFile);
+                $newImagename = $safeImagename.'-'.uniqid().'.'.$imageFile->guessExtension();
+                try{
+                    $imageFile->move(
+                        $this->getParameter('images_directory'),
+                        $newImagename
+                    );
+                } catch (FileException $e) {
+                    return new JsonResponse($e);
+                }
+                $product->setImageName($newImagename);
+            }
             $entityManager->persist($product);
             $entityManager->flush();
-            return $this->redirectToRoute('app_inside');
+            return $this->redirectToRoute('app_products_list');
         }
 
 
         return $this->render('api_products/index.html.twig', [
             'product_form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/products/list', name: 'app_products_list')]
+    public function products_list(ProductsRepository $productsRepository)
+    {
+        $products = $productsRepository->findAll();
+
+        return $this->render('products/list.html.twig', [
+            'products' => $products
         ]);
     }
 
