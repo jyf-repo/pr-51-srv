@@ -68,6 +68,17 @@
                                 </div>
                             </li>
                             <li class="mb-1">
+                                <button class="btn btn-toggle align-items-center rounded collapsed" id="dropdownMenuButton" data-bs-toggle="collapse" data-bs-target="#pillbox-collapse" aria-expanded="false">
+                                    Piluliers <i class="bi bi-caret-down" style="font-size: 10px"></i>
+                                </button>
+                                <div class="collapse" id="pillbox-collapse">
+                                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                        <li><a class="nav-link" href="{{ path('app_new_pillbox') }}">Nouveau</a></li>
+                                        <li><a class="nav-link" href="{{ path('app_pillbox') }}">Liste</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="mb-1">
                                 <button class="btn btn-toggle align-items-center rounded collapsed" id="dropdownMenuButton" data-bs-toggle="collapse" data-bs-target="#monitoring-collapse" aria-expanded="false">
                                     Suivi du site <i class="bi bi-caret-down" style="font-size: 10px"></i>
                                 </button>

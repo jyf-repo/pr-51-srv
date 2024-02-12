@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pilulier{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row bg-success-subtle">
+            <div class="col">
+                Nom
+            </div>
+            <div class="col">
+                Prénom
+            </div>
+            <div class="col-3">
+                email
+            </div>
+            <div class="col-2">
+                Téléphone
+            </div>
+            <div class="col">
+
+            </div>
+            <div class="col">
+
+            </div>
+            <div class="col">
+
+            </div>
+            <div class="col">
+
+            </div>
+        </div>
+    </div>
+    {% for app_user in app_users %}
+        <div class="container bg-info-subtle">
+            <div class="row">
+                <div class="col">
+                    {{ app_user.lastname }}
+                </div>
+                <div class="col">
+                    {{ app_user.firstname }}
+                </div>
+                <div class="col-3">
+                    {{ app_user.email }}
+                </div>
+                <div class="col-2">
+                    {{ app_user.phonenumber }}
+                </div>
+                <div class="col">
+                    <a href="{{ path('app_all_user', {'id': app_user.id}) }}" title="Prescriptions"><i class="bi bi-file-earmark-medical"></i></a>
+                </div>
+                <div class="col">
+                    <a href="{{ path('app_user_pillbox', {'idUser': app_user.id}) }}" title="Piluliers"><i class="bi bi-capsule-pill"></i></a>
+                </div>
+                <div class="col">
+                    <a href="#" title="Modifier"><i class="bi bi-pencil-square"></i></a>
+                </div>
+                <div class="col">
+                    <a href="{{ path('app_users_del', {'id': app_user.id}) }}" title="Supprimer"><i class="bi bi-trash"></i></a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

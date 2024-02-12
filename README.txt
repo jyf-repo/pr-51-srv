@@ -29,3 +29,14 @@ uploads/prescriptions and uploads/images folders are declared in the principal .
     insert allow-origin-cors in the .env with nelmio system
     And modify headers allow-origin-cors and allow-header-cors in the virtualhost or in the .htaccess
     Be careful!!! the dd() and dump() functions in the ApiClientAuthenticator may block the prod with cors messages
+
+    # to allow permissions (rwx) on folders:
+    Sudo apt-get install acl (if not installed)
+    getfacl /var/www/html/pr-51-srv/public/uploads/  (to see permissions on files or folders)
+
+    (here is the script from symfony doc to update permissions)
+    HTTPDUSER=$(ps axo user,comm | grep -E '[a]pache|[h]ttpd|[_]www|[w]ww-data|[n]ginx' | grep -v root | head -1 | cut -d\  -f1)
+    .set permissions for future files an folders:
+    sudo setfacl -dR -m u:"$HTTPDUSER":rwX -m u:$(whoami):rwX /var/www/html/pr-51-srv/public/uploads/images (permet de mettre à jour les permissions sur le fichier ou dossier)
+    .set permissions on the existing files and folders
+    sudo setfacl -R -m u:"$HTTPDUSER":rwX -m u:$(whoami):rwX /var/www/html/pr-51-srv/public/uploads/images (permet de mettre à jour les permissions sur le fichier ou dossier)

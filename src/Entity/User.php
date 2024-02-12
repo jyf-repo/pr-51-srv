@@ -52,9 +52,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'userId', targetEntity: Prescription::class)]
     private Collection $prescriptions;
 
+    #[ORM\OneToMany(mappedBy: 'userId', targetEntity: Pillbox::class, orphanRemoval: true)]
+    private Collection $pillboxes;
+
+
     public function __construct()
     {
         $this->prescriptions = new ArrayCollection();
+        $this->pillboxes = new ArrayCollection();
     }
 
 
@@ -224,6 +229,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($prescription->getUserId() === $this) {
                 $prescription->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Pillbox>
+     */
+    public function getPillboxes(): Collection
+    {
+        return $this->pillboxes;
+    }
+
+    public function addPillbox(Pillbox $pillbox): static
+    {
+        if (!$this->pillboxes->contains($pillbox)) {
+            $this->pillboxes->add($pillbox);
+            $pillbox->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removePillbox(Pillbox $pillbox): static
+    {
+        if ($this->pillboxes->removeElement($pillbox)) {
+            // set the owning side to null (unless already changed)
+            if ($pillbox->getUserId() === $this) {
+                $pillbox->setUserId(null);
             }
         }
 
