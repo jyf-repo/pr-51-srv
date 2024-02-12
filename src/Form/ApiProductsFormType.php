@@ -23,6 +23,7 @@ class ApiProductsFormType extends AbstractType
             ->add('image', FileType::class,[
                 'label'=>'Choisissez une image',
                 'mapped' => false,
+                'required' => false,
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',

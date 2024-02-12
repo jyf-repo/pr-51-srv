@@ -6,8 +6,35 @@
 <div class="container">
     <div class="row">
         <div class="bg-light mt-4 p-4">
+            <div class="form-test">
+                <form method="POST" action="{{ path('app_products_upload_test') }}" enctype="multipart/form-data">
+                    <div style="background-color: white; border: #1a1d20 solid 1px;  border-radius: 0.3rem;">
+                        <input type="file" id="image-button" name="imageFile" hidden/>
+                        <label for="image-button" style="background-color: indigo; color: white; padding: 0.5rem; border-radius: 0.3rem; cursor: pointer;">Choisissez une image</label>
+                        <span id="file-chosen" style="background-color: white; padding: 0.5rem;">Aucun fichier choisi</span>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-primary" style="margin-top: 1rem;">Charger</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="bg-light mt-4 p-4">
             {{ form(product_form) }}
         </div>
     </div>
 </div>
+<script>
+    const imageBtn = document.getElementById('image-button');
+
+    const fileChosen = document.getElementById('file-chosen');
+
+    imageBtn.addEventListener('change', function(){
+        fileChosen.textContent = this.files[0].name
+    })
+</script>
+{% endblock %}
+{% block javascripts %}
 {% endblock %}

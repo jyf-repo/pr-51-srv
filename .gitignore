@@ -6,15 +6,12 @@
 /config/secrets/prod/prod.decrypt.private.php
 /migrations
 /public/bundles/
-#/public/uploads/prescriptions
+/public/uploads/prescriptions
+/public/uploads/images
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
 .README.txt
-###> phpunit/phpunit ###
-/phpunit.xml
-.phpunit.result.cache
-###< phpunit/phpunit ###
 
 ###> symfony/phpunit-bridge ###
 .phpunit.result.cache

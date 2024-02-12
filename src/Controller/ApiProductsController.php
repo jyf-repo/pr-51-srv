@@ -8,8 +8,10 @@ use App\Form\SearchProductFormType;
 use App\Repository\ProductsRepository;
 use App\Service\Bdd_fetch;
 use Doctrine\ORM\EntityManagerInterface;
+use Gedmo\Sluggable\Util\Urlizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -56,7 +58,22 @@ class ApiProductsController extends AbstractController
             'product_form' => $form->createView(),
         ]);
     }
+    #[Route('/products/upload/test', name: 'app_products_upload_test')]
+    public function testFile(Request $request)
+    {
+        // dd($request->files->get('imageFile'));
+        /** @var UploadedFile $uploadedFile */
+        $uploadedFile =$request->files->get('imageFile');
+        $destination = $this->getParameter('kernel.project_dir').'/public/uploads/images';
 
+        $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
+        // Urlizer transform file name with spaces(' ') into file name with ('-');
+        $newFilename = Urlizer::urlize($originalFilename).'-'.uniqid().'.'.$uploadedFile->guessExtension();
+        dd($uploadedFile->move(
+            $destination,
+            $newFilename
+        ));
+    }
     #[Route('/products/list', name: 'app_products_list')]
     public function products_list(ProductsRepository $productsRepository)
     {
