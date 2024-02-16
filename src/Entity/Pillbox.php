@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\PillboxRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PillboxRepository::class)]
 class Pillbox
@@ -12,6 +13,7 @@ class Pillbox
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups("toto l'asticot")]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'pillboxes')]
@@ -19,15 +21,19 @@ class Pillbox
     private ?User $userId = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups("toto l'asticot")]
     private ?\DateTimeInterface $start = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups("toto l'asticot")]
     private ?\DateTimeInterface $end = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups("toto l'asticot")]
     private ?string $price = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups("toto l'asticot")]
     private ?string $comments = null;
 
     public function getId(): ?int
