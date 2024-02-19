@@ -44,7 +44,8 @@
         "symfonycasts/reset-password-bundle": "^1.20",
         "symfonycasts/verify-email-bundle": "^1.15",
         "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^2.12|^3.0"
+        "twig/twig": "^2.12|^3.0",
+        "wl-online-payments-direct/sdk-php": "^5.12"
     },
     "config": {
         "allow-plugins": {

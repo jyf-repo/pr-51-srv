@@ -30,7 +30,7 @@ class PillboxController extends AbstractController
         ]);
     }
     #[Route('/api/pillbox/{userId}', name: 'api_pillbox')]
-    public function allPillboxesUser($userId, PillboxRepository $pillboxRepository, UserRepository $userRepository, SerializerInterface $serializer): Response
+    public function allPillboxesUser($userId, PillboxRepository $pillboxRepository, SerializerInterface $serializer): Response
     {
         $allPillbox = $pillboxRepository->findBy(['userId'=> $userId]);
         //dd($allPillbox);

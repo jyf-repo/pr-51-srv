@@ -106,7 +106,7 @@ class UploadFileController extends AbstractController
                 new File([
                     'maxSize' => '1M',
                     'mimeTypes' => [
-                        //'image/*',
+                        'image/*',
                         'application/pdf',
                         'application/x-pdf',
                         //'application/msword',
@@ -132,5 +132,15 @@ class UploadFileController extends AbstractController
 
         $emailService->send_email($user_identify->getEmail(), 'Nouvelle ordonnance', 'Une ordonnance a été deposée dans l\'espace client');
         return new JsonResponse('ordonnance envoyée!!');
+    }
+
+    #[Route('/api/get/prescriptions/{userId}', name: 'api_get_prescription_user')]
+    public function apiGetPrescriptions($userId, PrescriptionRepository $prescriptionRepository, SerializerInterface $serializer)
+    {
+        $prescriptions = $prescriptionRepository->findBy(['userId' => $userId]);
+        //dd($prescriptions);
+        $prescriptionsJson = $serializer->serialize($prescriptions, 'json', ['groups'=>"USER_PRESCRIPTION"]);
+        //dd($prescriptionsJson);
+        return $this->json($prescriptionsJson);
     }
 }

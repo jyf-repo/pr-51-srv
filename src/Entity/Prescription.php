@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PrescriptionRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PrescriptionRepository::class)]
 class Prescription
@@ -11,12 +12,14 @@ class Prescription
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups("USER_PRESCRIPTION")]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'prescriptions')]
     private ?User $userId = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups("USER_PRESCRIPTION")]
     private ?string $prescriptionFileName = null;
 
     public function getId(): ?int
