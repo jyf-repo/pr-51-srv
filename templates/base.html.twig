@@ -35,13 +35,38 @@
                             </li>
                         {% else %}
                             <li class="mb-1">
-                                <button class="btn btn-toggle align-items-center rounded collapsed" id="dropdownMenuButton" data-bs-toggle="collapse" data-bs-target="#users-collapse" aria-expanded="false">
-                                    Utilisateurs <i class="bi bi-caret-down" style="font-size: 10px"></i>
+                                <button class="btn btn-toggle align-items-center rounded collapsed" id="dropdownMenuButton" data-bs-toggle="collapse" data-bs-target="#prescriptions-collapse" aria-expanded="false">
+                                    Ordonnances <i class="bi bi-caret-down" style="font-size: 10px"></i>
                                 </button>
-                                <div class="collapse" id="users-collapse">
+                                <div class="collapse" id="prescriptions-collapse">
                                     <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                            <li><a class="nav-link" href="{{ path('app_admin_users') }}">Inscrits</a></li>
-                                            <li><a class="nav-link" href="{{ path('app_contact') }}">Contacter</a></li>
+                                        <li><a class="nav-link" href="#">Nouvelle</a></li>
+                                    </ul>
+                                </div>
+                                <div class="collapse" id="prescriptions-collapse">
+                                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                        <li><a class="nav-link" href="{{ path('app_show_prescriptions') }}">Liste</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="mb-1">
+                                <button class="btn btn-toggle align-items-center rounded collapsed" id="dropdownMenuButton" data-bs-toggle="collapse" data-bs-target="#pillbox-collapse" aria-expanded="false">
+                                    Piluliers <i class="bi bi-caret-down" style="font-size: 10px"></i>
+                                </button>
+                                <div class="collapse" id="pillbox-collapse">
+                                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                        <li><a class="nav-link" href="{{ path('app_new_pillbox') }}">Nouveau</a></li>
+                                        <li><a class="nav-link" href="{{ path('app_pillbox') }}">Liste</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="mb-1">
+                                <button class="btn btn-toggle align-items-center rounded collapsed" id="dropdownMenuButton" data-bs-toggle="collapse" data-bs-target="#rent-collapse" aria-expanded="false">
+                                    Locations <i class="bi bi-caret-down" style="font-size: 10px"></i>
+                                </button>
+                                <div class="collapse" id="rent-collapse">
+                                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                        <li><a class="nav-link" href="{{ path('app_calendar') }}">Calendrier</a></li>
                                     </ul>
                                 </div>
                             </li>
@@ -58,33 +83,23 @@
                                 </div>
                             </li>
                             <li class="mb-1">
-                                <button class="btn btn-toggle align-items-center rounded collapsed" id="dropdownMenuButton" data-bs-toggle="collapse" data-bs-target="#rent-collapse" aria-expanded="false">
-                                    Locations <i class="bi bi-caret-down" style="font-size: 10px"></i>
-                                </button>
-                                <div class="collapse" id="rent-collapse">
-                                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                        <li><a class="nav-link" href="{{ path('app_calendar') }}">Calendrier</a></li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li class="mb-1">
-                                <button class="btn btn-toggle align-items-center rounded collapsed" id="dropdownMenuButton" data-bs-toggle="collapse" data-bs-target="#pillbox-collapse" aria-expanded="false">
-                                    Piluliers <i class="bi bi-caret-down" style="font-size: 10px"></i>
-                                </button>
-                                <div class="collapse" id="pillbox-collapse">
-                                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                        <li><a class="nav-link" href="{{ path('app_new_pillbox') }}">Nouveau</a></li>
-                                        <li><a class="nav-link" href="{{ path('app_pillbox') }}">Liste</a></li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li class="mb-1">
                                 <button class="btn btn-toggle align-items-center rounded collapsed" id="dropdownMenuButton" data-bs-toggle="collapse" data-bs-target="#monitoring-collapse" aria-expanded="false">
                                     Suivi du site <i class="bi bi-caret-down" style="font-size: 10px"></i>
                                 </button>
                                 <div class="collapse" id="monitoring-collapse">
                                     <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                                         <li><a class="nav-link" href="{{ path('app_log_error') }}">Messages log</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="mb-1">
+                                <button class="btn btn-toggle align-items-center rounded collapsed" id="dropdownMenuButton" data-bs-toggle="collapse" data-bs-target="#users-collapse" aria-expanded="false">
+                                    Utilisateurs <i class="bi bi-caret-down" style="font-size: 10px"></i>
+                                </button>
+                                <div class="collapse" id="users-collapse">
+                                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                            <li><a class="nav-link" href="{{ path('app_admin_users') }}">Inscrits</a></li>
+                                            <li><a class="nav-link" href="{{ path('app_contact') }}">Contacter</a></li>
                                     </ul>
                                 </div>
                             </li>

@@ -1,3 +1,5 @@
+Important: cmd "./bin/console cache:clear" must be done after each deployement on server with APP_ENV=prod (even if you have done it with APP_ENV=dev)
+
 api login/check needs a listener named AuthenticationSuccessListener (see doc: https://github.com/lexik/LexikJWTAuthenticationBundle/blob/3.x/Resources/doc/2-data-customization.rst#id7)
 to send data user to the client App.
 

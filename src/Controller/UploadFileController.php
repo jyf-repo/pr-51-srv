@@ -25,6 +25,17 @@ use Symfony\Component\HttpFoundation\File\File as FileObject;
 
 class UploadFileController extends AbstractController
 {
+    #[Route('/upload/show/prescriptions', name: 'app_show_prescriptions')]
+    public function showPrescriptions(PrescriptionRepository $prescriptionRepository, UserRepository $userRepository)
+    {
+        $prescriptions = $prescriptionRepository->findAll();
+        $users = $userRepository->findAll();
+        return $this->render('/upload_file/all_prescriptions.html.twig', [
+            'prescriptions' => $prescriptions,
+            'users' => $users
+        ]);
+    }
+
     #[Route('/upload/filePrescription/{userId}', name: 'app_upload_filePrescription')]
     public function index($userId, Request $request, FileUploader $fileUploader, EntityManagerInterface $entityManager): Response
     {
