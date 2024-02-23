@@ -12,7 +12,7 @@
 /vendor/
 ###< symfony/framework-bundle ###
 .README.txt
-
+medicontis.drawio
 ###> symfony/phpunit-bridge ###
 .phpunit.result.cache
 /phpunit.xml

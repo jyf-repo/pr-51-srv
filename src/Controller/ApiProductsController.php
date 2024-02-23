@@ -22,6 +22,7 @@ use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
 
 class ApiProductsController extends AbstractController
 {
@@ -47,6 +48,9 @@ class ApiProductsController extends AbstractController
                     return new JsonResponse($e);
                 }
                 $product->setImageName($newImagename);
+                $imagePath = '/uploads/images/'.$newImagename;
+                $urlImage = $request->getUriForPath($imagePath);
+                $product->setImagePath($urlImage);
             }
             $entityManager->persist($product);
             $entityManager->flush();
@@ -122,13 +126,6 @@ class ApiProductsController extends AbstractController
             'req' => $req
         ]);
     }
-    #[Route('/api/products', name: 'app_products')]
-    public function get_products(ProductsRepository $productsRepository): Response
-    {
-        $products = $productsRepository->findAll();
-
-        return $this->json($products);
-    }
 
     #[Route('/search/bdd', name: 'api_search_bdd', methods: 'POST')]
     public function search_product_bdd(Request $request, Bdd_fetch $bdd_fetch): Response
@@ -143,5 +140,21 @@ class ApiProductsController extends AbstractController
         $result_json = json_encode($result);
         //dd($result_json);
         return $this->json($result_json);
+    }
+    #[Route('/api/products', name: 'app_products')]
+    public function get_products(ProductsRepository $productsRepository): Response
+    {
+        $products = $productsRepository->findAll();
+
+        return $this->json($products);
+    }
+    #[Route('/api/products/images/{idProduct}', name: "app_image_products")]
+    public function get_image_products($idProduct, ProductsRepository $productsRepository, Request $request)
+    {
+        $product = $productsRepository->findOneBy(['id'=>$idProduct]);
+        $image = $product->getImageName();
+        $path_image = '/uploads/images/'.$image;
+        $urlImage = $request->getUriForPath($path_image);
+        return $this->json($urlImage);
     }
 }

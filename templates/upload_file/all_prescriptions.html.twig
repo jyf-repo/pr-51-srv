@@ -6,6 +6,7 @@
     <div class="container">
         {% for prescription in prescriptions %}
             <div><strong>{{ prescription.userId.id }}: </strong></div><a href="{{ asset('uploads/prescriptions/' ~ prescription.prescriptionFileName) }}">{{ prescription.prescriptionFileName }}</a>
+            <p><a href="{{ path('app_delete_prescription', {'idPrescription': prescription.id }) }}">Supprimer</a></p>
         {%  endfor %}
     </div>
 {% endblock %}

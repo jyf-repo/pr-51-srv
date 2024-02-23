@@ -12,6 +12,7 @@ use App\Service\FileUploader;
 use App\Service\FileUploaderApi;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,6 +37,7 @@ class UploadFileController extends AbstractController
         ]);
     }
 
+
     #[Route('/upload/filePrescription/{userId}', name: 'app_upload_filePrescription')]
     public function index($userId, Request $request, FileUploader $fileUploader, EntityManagerInterface $entityManager): Response
     {
@@ -49,6 +51,9 @@ class UploadFileController extends AbstractController
             $prescriptionFileName = $fileUploader->upload($prescriptionFile);
             //dd($prescriptionFileName);
             $prescription->setPrescriptionFileName($prescriptionFileName);
+            $prescriptionPath = '/uploads/prescriptions/'.$prescriptionFileName;
+            $urlprescription = $request->getUriForPath($prescriptionPath);
+            $prescription->setPrescriptionPath($urlprescription);
 
             $entityManager->persist($prescription);
             $entityManager->flush();
@@ -137,6 +142,9 @@ class UploadFileController extends AbstractController
         $prescriptionFileName = $fileUploader->uploadFile($uploadedFile);
 
         $prescription->setPrescriptionFileName($prescriptionFileName);
+        $prescriptionPath = '/uploads/prescriptions/'.$prescriptionFileName;
+        $urlprescription = $request->getUriForPath($prescriptionPath);
+        $prescription->setPrescriptionPath($urlprescription);
 
         $entityManager->persist($prescription);
         $entityManager->flush();
@@ -153,5 +161,25 @@ class UploadFileController extends AbstractController
         $prescriptionsJson = $serializer->serialize($prescriptions, 'json', ['groups'=>"USER_PRESCRIPTION"]);
         //dd($prescriptionsJson);
         return $this->json($prescriptionsJson);
+    }
+
+    #[Route('/prescription/delete/{idPrescription}', name:'app_delete_prescription')]
+    public function delete_prescription($idPrescription, PrescriptionRepository $prescriptionRepository, EntityManagerInterface $entityManager)
+    {
+        // remove prescription from the folder "/uploads/prescriptions/":
+        $prescription = $prescriptionRepository->findOneBy(['id' => $idPrescription]); // get file
+        //dd($prescription);
+        $filename = $prescription->getPrescriptionFileName(); //get file name
+        //dd($filename);
+        $fileSystem = new Filesystem();// filesystem instance
+        $directory = $this->getParameter('prescriptions_directory');//path to prescriptions
+        //dd($directory.'/'.$filename);
+        $fileSystem->remove($directory.'/'.$filename); //removing prescription
+
+        //remove from the data base
+        $entityManager->remove($prescription);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_show_prescriptions');
     }
 }

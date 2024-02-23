@@ -22,6 +22,10 @@ class Prescription
     #[Groups("USER_PRESCRIPTION")]
     private ?string $prescriptionFileName = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups("USER_PRESCRIPTION")]
+    private ?string $prescription_path = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -48,6 +52,18 @@ class Prescription
     {
         //dd($prescriptionFileName);
         $this->prescriptionFileName = $prescriptionFileName;
+
+        return $this;
+    }
+
+    public function getPrescriptionPath(): ?string
+    {
+        return $this->prescription_path;
+    }
+
+    public function setPrescriptionPath(?string $prescription_path): static
+    {
+        $this->prescription_path = $prescription_path;
 
         return $this;
     }
