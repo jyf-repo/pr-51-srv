@@ -57,12 +57,19 @@ class PillboxController extends AbstractController
         ]);
     }
 
-    #[Route('/pillbox/{idUser}', name: 'app_user_pillbox')]
-    public function user_pillbox(): Response
+    #[Route('/api/pillbox/paid/{idUser}', name: 'app_user_pillbox')]
+    public function user_pillbox(Request $request, PillboxRepository $pillboxRepository, EntityManagerInterface $entityManager): Response
     {
+        $req = $request->getContent();
+        $pillboxes_paid = json_decode($req);
+        $pillbox =new Pillbox();
+        foreach ($pillboxes_paid as $value ){
+            $pillbox = $pillboxRepository->findOneBy(['id'=>$value]);
+            $pillbox->setPayed(true);
+            $entityManager->persist($pillbox);
+            $entityManager->flush();
+        }
 
-        return $this->render('pillbox/user.html.twig', [
-
-        ]);
+        return new JsonResponse($pillboxes_paid);
     }
 }

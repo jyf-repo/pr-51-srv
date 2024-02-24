@@ -5,6 +5,7 @@ namespace App\Service;
 use OnlinePayments\Sdk\Client;
 use OnlinePayments\Sdk\Communicator;
 use OnlinePayments\Sdk\CommunicatorConfiguration;
+use OnlinePayments\Sdk\DeclinedPaymentException;
 use OnlinePayments\Sdk\DefaultConnection;
 use OnlinePayments\Sdk\Domain\Address;
 use OnlinePayments\Sdk\Domain\AmountOfMoney;
@@ -15,6 +16,7 @@ use OnlinePayments\Sdk\Domain\Customer;
 use OnlinePayments\Sdk\Domain\Order;
 use OnlinePayments\Sdk\Domain\OrderReferences;
 use OnlinePayments\Sdk\Domain\ThreeDSecure;
+use PhpParser\Error;
 
 class IngenicoSDK_Bundle
 {
@@ -52,7 +54,7 @@ class IngenicoSDK_Bundle
         $apiEndpoint = $this->uriResource;
 
         // Additional settings to easily identify your company in our logs.
-        $integrator = 'TEST JYF';
+        $integrator = 'Granpharma';
 
         $proxyConfiguration = null;
         /*
@@ -81,7 +83,7 @@ class IngenicoSDK_Bundle
         $client = new Client($communicator);
 
         $merchantClient = $client->merchant($merchantId);
-        dump($merchantClient);
+        //dd($merchantClient);
         return $merchantClient;
     }
 
@@ -92,7 +94,7 @@ class IngenicoSDK_Bundle
          * object created in initialisation
          */
         $paymentsClient = $this->merchantClient()->payments();
-        dump($paymentsClient);
+        //dump($paymentsClient);
         $createPaymentRequest = new CreatePaymentRequest();
 
         $order = new Order();
@@ -118,7 +120,7 @@ class IngenicoSDK_Bundle
 
         //references
         $references =new OrderReferences();
-        $references->setMerchantReference('CMD-0001');
+        $references->setMerchantReference('Piluliers');
         $order->setReferences($references);
 
         $cardPaymentMethodSpecificInput->setAuthorizationMode('FINAL_AUTHORIZATION');
@@ -140,7 +142,7 @@ class IngenicoSDK_Bundle
         $card->setCardholderName($cardHolderName);
 
         $cardPaymentMethodSpecificInput->setCard($card);
-        dump($card);
+        //dump($card);
         $cardPaymentMethodSpecificInput->setPaymentProductId($paymentProductId);
         $createPaymentRequest->setCardPaymentMethodSpecificInput(
             $cardPaymentMethodSpecificInput
@@ -148,21 +150,28 @@ class IngenicoSDK_Bundle
         $createPaymentRequest->setOrder(
             $order
         );
-        dump($createPaymentRequest);
-
+        //dd($createPaymentRequest);
+try{
         // Get the response for the PaymentsClient
         $createPaymentResponse =
             $paymentsClient->createPayment($createPaymentRequest);
         // Here you get $paymentId that you can use in further code
         $paymentID = $createPaymentResponse->getPayment()->getId();
-        dump($paymentID);
+        //dump($paymentID);
         // Get the PaymentResponse object with status information
         // concerning payment of the given ID
+
+
         $paymentResponse = $this->merchantClient()
             ->payments()
             ->getPayment($paymentID);
         //dd($paymentResponse);
 
         return $paymentResponse;
+
+    } catch (DeclinedPaymentException $e) {
+            //dd($e);
+            return $e->getHttpStatusCode();
+        }
     }
 }

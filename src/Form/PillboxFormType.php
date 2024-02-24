@@ -28,6 +28,7 @@ class PillboxFormType extends AbstractType
             ->add('Price', TextType::class, [
                 'required' => true
             ])
+            ->add('payed')
             ->add('comments')
             ->add('userId', EntityType::class, [
                 'class' => User::class,

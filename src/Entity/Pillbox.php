@@ -36,6 +36,10 @@ class Pillbox
     #[Groups("toto l'asticot")]
     private ?string $comments = null;
 
+    #[ORM\Column(nullable: true)]
+    #[Groups("toto l'asticot")]
+    private ?bool $payed = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -97,6 +101,18 @@ class Pillbox
     public function setComments(?string $comments): static
     {
         $this->comments = $comments;
+
+        return $this;
+    }
+
+    public function isPayed(): ?bool
+    {
+        return $this->payed;
+    }
+
+    public function setPayed(?bool $payed): static
+    {
+        $this->payed = $payed;
 
         return $this;
     }

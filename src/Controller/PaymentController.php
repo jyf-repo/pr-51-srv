@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Service\IngenicoSDK_Bundle;
+
+use Error;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,9 +29,14 @@ class PaymentController extends AbstractController
         $cvv = $data->cvv;
 
         $payment = $ingenicoSDK_Bundle->paymentClient($price, $paymentProductId, $cardHolderName, $country, $cardNumber, $expiryDate, $cvv);
-        $result = $payment->toJson();
-
-        return new JsonResponse($result);
+        //dd($payment);
+        try{
+            $result = $payment->getStatusOutput();
+            //dd($result);
+            return $this->json($result);
+        } catch (error $e){
+            return new Response($payment);
+        }
 
     }
 }
