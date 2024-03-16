@@ -33,7 +33,7 @@ class PrescriptionFormType extends AbstractType
             ])
             ->add('userId', EntityType::class, [
                 'class' => User::class,
-                'choice_label' => 'id',
+                'choice_label' => 'email',
             ])
             ->add('save', SubmitType::class, [
                 'label' => 'Valider'

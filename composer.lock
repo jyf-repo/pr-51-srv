@@ -4,8 +4,45 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3463978543f8598cf051fe8c4ca90168",
+    "content-hash": "64da9befb9fc697da81f86ca815e41cc",
     "packages": [
+        {
+            "name": "baldwin/medipim-api-client",
+            "version": "2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://bitbucket.org/baldwinagency/medipim-api-client.git",
+                "reference": "ecbee72f7e966e739fbedb03fa36c94a34857c11"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://bitbucket.org/baldwinagency/medipim-api-client/get/ecbee72f7e966e739fbedb03fa36c94a34857c11.zip",
+                "reference": "ecbee72f7e966e739fbedb03fa36c94a34857c11",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": "^5.6 || ^7.0 || ^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Medipim\\": "src/Medipim/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHP client for Medipim API (v3 and up)",
+            "homepage": "https://www.medipim.be",
+            "support": {
+                "email": "support@medipim.be",
+                "source": "https://bitbucket.org/baldwinagency/medipim-api-client/src/ecbee72f7e966e739fbedb03fa36c94a34857c11/?at=2.0.1"
+            },
+            "time": "2023-11-08T08:58:20+00:00"
+        },
         {
             "name": "behat/transliterator",
             "version": "v1.5.0",

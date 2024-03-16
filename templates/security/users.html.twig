@@ -23,9 +23,6 @@
                 <div class="col">
 
                 </div>
-                <div class="col">
-
-                </div>
             </div>
     </div>
     {% for user in users %}
@@ -58,9 +55,6 @@
                     {% else %}
                         <p>Oui</p>
                     {% endif %}
-                </div>
-                <div class="col">
-                    <a href="{{ path('app_upload_filePrescription', {'userId': user.id}) }}" title="Prescriptions"><i class="bi bi-file-earmark-medical"></i></a>
                 </div>
                 <div class="col">
                     <a href="#"><i class="bi bi-pencil-square" title="Modifier"></i></a>

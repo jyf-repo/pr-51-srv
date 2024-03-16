@@ -4,9 +4,22 @@
 
 {% block body %}
     <div class="container">
+        <h3>Liste des ordonnances pour chaque client:</h3>
         {% for prescription in prescriptions %}
-            <div><strong>{{ prescription.userId.id }}: </strong></div><a href="{{ asset('uploads/prescriptions/' ~ prescription.prescriptionFileName) }}">{{ prescription.prescriptionFileName }}</a>
-            <p><a href="{{ path('app_delete_prescription', {'idPrescription': prescription.id }) }}">Supprimer</a></p>
+            <div class="row">
+                <div>
+                    <strong>
+                        {{ prescription.userId.id }}:
+                        {% for user in users %}
+                            {% if user.id == prescription.userId.id %}
+                                {{ user.email }} {{ user.firstname }} {{ user.lastname }}
+                            {% endif %}
+                        {% endfor %}
+                    </strong>
+                </div>
+                <a href="{{ asset('uploads/prescriptions/' ~ prescription.prescriptionFileName) }}">Voir</a>
+                <a href="{{ path('app_delete_prescription', {'idPrescription': prescription.id }) }}">Supprimer</a>
+            </div>
         {%  endfor %}
     </div>
 {% endblock %}

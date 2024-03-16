@@ -7,8 +7,11 @@ use App\Form\ApiProductsFormType;
 use App\Form\SearchProductFormType;
 use App\Repository\ProductsRepository;
 use App\Service\Bdd_fetch;
+use App\Service\LgoServiceJson;
+use App\unmigrate_entity\MedipimProducts;
 use Doctrine\ORM\EntityManagerInterface;
 use Gedmo\Sluggable\Util\Urlizer;
+use Medipim\Api\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -16,6 +19,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Serializer\Encoder\EncoderInterface;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
@@ -26,6 +33,19 @@ use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
 
 class ApiProductsController extends AbstractController
 {
+    /* Products LGP */
+    #[Route('/lgp/api/products', name: 'api_lgp_products')]
+    public function get_LGP_products(LgoServiceJson $lgoServiceJson)
+    {
+        $req = $lgoServiceJson->getProduct();
+        //dd(json_decode($req));
+        $reqJson = json_decode($req);
+        //dd($reqJson->belreponse->sstock->produit);
+        $products = $reqJson->belreponse->sstock->produit;
+        return $this->render('/products/lgp.html.twig', [
+            'products' => $products
+        ]);
+    }
     #[Route('/new/product', name: 'app_new_product')]
     public function index(Request $request, SluggerInterface $slugger, EntityManagerInterface $entityManager): Response
     {
@@ -156,5 +176,36 @@ class ApiProductsController extends AbstractController
         $path_image = '/uploads/images/'.$image;
         $urlImage = $request->getUriForPath($path_image);
         return $this->json($urlImage);
+    }
+
+    /* MEDIPIM api provisoire */
+    #[Route('/test/api/medipim/products', name: 'api_medipim_products')]
+    public function get_medipim_products(DenormalizerInterface $denormalizer, SerializerInterface $serializer, EncoderInterface $encoder)
+    {
+        $apiKeyId = $this->getParameter('apiKeyId');
+        $apiKeySecret = $this->getParameter('apiKeySecret');
+        $baseUrl = $this->getParameter('baseUrl');
+
+        $client = new Client($apiKeyId, $apiKeySecret, $baseUrl);
+
+        $api_products = $client->post("/v4/products/query", [
+            "filter" => [
+                "hasContent" => [
+                    "flag" => "media",
+                    "locale" => "fr"
+                ],
+            ],
+
+            "sorting" => ["id" => "ASC"],
+            "page" => [
+                "size" => 100,
+                "no" => 0
+                ]
+        ]);
+        //dd($api_products["results"]);
+        $products = $api_products["results"];
+        return $this->render('products/test.html.twig', [
+            'products' => $products
+        ]);
     }
 }

@@ -6,7 +6,9 @@
 parameters:
     prescriptions_directory: '%kernel.project_dir%/public/uploads/prescriptions'
     images_directory: '%kernel.project_dir%/public/uploads/images'
+    #CLIENT_APP
     url_client_app: '%env(URL_CLIENT_APP)%'
+    #BDD
     url_bdd_api: '%env(URL_BDD_API)%'
     bdd_med_id: '%env(BDD_MED_ID)%'
     bdd_key: '%env(BDD_KEY)%'
@@ -15,6 +17,15 @@ parameters:
     merchant_id: '%env(MERCHANT_ID)%'
     api_key: '%env(CARD_DIRECT_API_KEY)%'
     api_secret: '%env(API_SECRET)%'
+    #LGP
+    url: '%env(URL_LGP)%'
+    page: '%env(PAGE_LGP)%'
+    login: '%env(LOGIN_LGP)%'
+    pass: '%env(PASS_LGP)%'
+    #MEDIPIM
+    apiKeyId: '%env(API_KEY_ID)%'
+    apiKeySecret: '%env(API_KEY_SECRET)%'
+    baseUrl: '%env(BASE_URL)%'
 services:
     acme_api.event.authentication_success_listener:
         class: App\EventListener\AuthenticationSuccessListener
@@ -30,7 +41,15 @@ services:
             $merchantId: '%merchant_id%'
             $apiKey: '%api_key%'
             $apiSecret: '%api_secret%'
-
+            #LGP
+            $url: '%url%'
+            $page: '%page%'
+            $login: '%login%'
+            $pass: '%pass%'
+            #MEDIPIM
+            $apiKeyId: '%apiKeyId%'
+            $apiKeySecret: '%apiKeySecret%'
+            $baseUrl: '%baseUrl%'
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:

@@ -40,7 +40,7 @@
                                 </button>
                                 <div class="collapse" id="prescriptions-collapse">
                                     <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                        <li><a class="nav-link" href="#">Nouvelle</a></li>
+                                        <li><a class="nav-link" href="{{ path('app_upload_filePrescription') }}">Nouvelle</a></li>
                                     </ul>
                                 </div>
                                 <div class="collapse" id="prescriptions-collapse">
@@ -76,9 +76,11 @@
                                 </button>
                                 <div class="collapse" id="products-collapse">
                                     <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                        <li><a class="nav-link link-dark rounded" href="{{ path('api_lgp_products') }}">Produits en stock</a></li>
                                         <li><a class="nav-link link-dark rounded" href="{{ path('app_new_product') }}">Nouveau</a></li>
                                         <li><a class="nav-link link-dark rounded" href="{{ path('app_products_list') }}">Liste</a></li>
                                         <li><a class="nav-link link-dark rounded" href="{{ path('app_show_products') }}">Chercher</a></li>
+                                        <li><a class="nav-link link-dark rounded" href="{{ path('api_medipim_products') }}">Tester medipim</a></li>
                                     </ul>
                                 </div>
                             </li>

@@ -38,8 +38,8 @@ class UploadFileController extends AbstractController
     }
 
 
-    #[Route('/upload/filePrescription/{userId}', name: 'app_upload_filePrescription')]
-    public function index($userId, Request $request, FileUploader $fileUploader, EntityManagerInterface $entityManager): Response
+    #[Route('/upload/filePrescription', name: 'app_upload_filePrescription')]
+    public function index(Request $request, FileUploader $fileUploader, EntityManagerInterface $entityManager): Response
     {
         $prescription = new Prescription();
         $form = $this->createForm(PrescriptionFormType::class, $prescription);
@@ -52,15 +52,13 @@ class UploadFileController extends AbstractController
             //dd($prescriptionFileName);
             $prescription->setPrescriptionFileName($prescriptionFileName);
             $prescriptionPath = '/uploads/prescriptions/'.$prescriptionFileName;
-            $urlprescription = $request->getUriForPath($prescriptionPath);
-            $prescription->setPrescriptionPath($urlprescription);
+            $urlPrescription = $request->getUriForPath($prescriptionPath);
+            $prescription->setPrescriptionPath($urlPrescription);
 
             $entityManager->persist($prescription);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_show_filePrescription', [
-                'userId' => $userId
-            ]);
+            return $this->redirectToRoute('app_show_prescriptions');
         }
 
         return $this->render('upload_file/index.html.twig', [
@@ -143,8 +141,8 @@ class UploadFileController extends AbstractController
 
         $prescription->setPrescriptionFileName($prescriptionFileName);
         $prescriptionPath = '/uploads/prescriptions/'.$prescriptionFileName;
-        $urlprescription = $request->getUriForPath($prescriptionPath);
-        $prescription->setPrescriptionPath($urlprescription);
+        $urlPrescription = $request->getUriForPath($prescriptionPath);
+        $prescription->setPrescriptionPath($urlPrescription);
 
         $entityManager->persist($prescription);
         $entityManager->flush();
