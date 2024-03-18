@@ -8,7 +8,9 @@ use App\Form\SearchProductFormType;
 use App\Repository\ProductsRepository;
 use App\Service\Bdd_fetch;
 use App\Service\LgoServiceJson;
+use App\unmigrate_entity\Belreponse;
 use App\unmigrate_entity\MedipimProducts;
+use App\unmigrate_entity\Rootrequest;
 use Doctrine\ORM\EntityManagerInterface;
 use Gedmo\Sluggable\Util\Urlizer;
 use Medipim\Api\Client;
@@ -35,13 +37,24 @@ class ApiProductsController extends AbstractController
 {
     /* Products LGP */
     #[Route('/lgp/api/products', name: 'api_lgp_products')]
-    public function get_LGP_products(LgoServiceJson $lgoServiceJson)
+    public function get_LGP_products(LgoServiceJson $lgoServiceJson, SerializerInterface $serializer)
     {
-        $req = $lgoServiceJson->getProduct();
+        $req = $lgoServiceJson->getProduct(); //string
+        //dd($req);
+        // --------------------Methode recuperation d'un tableau de tableaux
+        $reqObject =  $serializer->deserialize($req, Rootrequest::class, 'json');//Object
+        //dd($reqObject);
+        //dd($reqObject->getBelreponse());
+        //dd($reqObject->getBelreponse()->getSstock());
+        //dd($reqObject->getBelreponse()->getSstock()->getProduit());
+        $products = $reqObject->getBelreponse()->getSstock()->getProduit();
+
+        //----------------------Methode recuperation d'un tableau de json
         //dd(json_decode($req));
-        $reqJson = json_decode($req);
+        //$reqJson = json_decode($req); //json
         //dd($reqJson->belreponse->sstock->produit);
-        $products = $reqJson->belreponse->sstock->produit;
+        //$products = $reqJson->belreponse->sstock->produit;
+
         return $this->render('/products/lgp.html.twig', [
             'products' => $products
         ]);

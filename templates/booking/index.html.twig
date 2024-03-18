@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Location de materiel{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div id="title" class="row">
+            <div class="col">
+                id
+            </div>
+            <div class="col">
+                Nom
+            </div>
+            <div class="col">
+                Description
+            </div>
+        </div>
+        {% for category in rentcategories %}
+            <div id="content" class="row">
+                <div class="col">
+                    <a href="{{ path('app_booking_edit_rent_category', {'id' : category.id}) }}">{{ category.id }}</a>
+                </div>
+                <div class="col">
+                    {{ category.name }}
+                </div>
+                <div class="col">
+                    {{ category.description }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+{% block stylesheets %}
+    <style>
+        #title{
+            background-color: #e1efcb;
+        }
+        #content{
+            background-color: #c8e8ef;
+        }
+    </style>
+{% endblock %}
