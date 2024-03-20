@@ -57,7 +57,7 @@
                     {% endif %}
                 </div>
                 <div class="col">
-                    <a href="#"><i class="bi bi-pencil-square" title="Modifier"></i></a>
+                    <a href="{{path('app_edit_user', {'id': user.id }) }}"><i class="bi bi-pencil-square" title="Modifier"></i></a>
                 </div>
                 <div class="col">
                     <a href="{{ path('app_users_del', {'id': user.id}) }}" title="Supprimer"><i class="bi bi-trash"></i></a>

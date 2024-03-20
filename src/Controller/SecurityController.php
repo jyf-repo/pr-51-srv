@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\ChangePasswordFormType;
+use App\Form\UserFormType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -53,6 +54,29 @@ class SecurityController extends AbstractController
             'users' => $users
         ]);
     }
+    // Modify User
+    #[Route('/user/new', name: 'app_new_user')]
+    #[Route('/user/{id}/edit', name: 'app_edit_user')]
+    public function edit_user(User $user=null, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager)
+    {
+        $form = $this->createForm(UserFormType::class, $user);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+
+            $user = $form->getData();
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_admin_users');
+        }
+
+        return $this->render('security/edit.html.twig', [
+           'edit_form' => $form
+        ]);
+    }
+    // Delete User
     #[Route(path: '/{id}', name: 'app_users_del')]
     public function delete_user( User $user, EntityManagerInterface $entityManager): Response
     {

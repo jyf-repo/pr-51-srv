@@ -59,6 +59,16 @@ class ApiProductsController extends AbstractController
             'products' => $products
         ]);
     }
+
+    #[Route('/lgp/api/send/sale', name:'api_lgp_sale')]
+    public function send_sale(LgoServiceJson $lgoServiceJson)
+    {
+        $lgoServiceJson->post_sale('5555555');
+        $response_sales = $lgoServiceJson->getResponseInvoiceIntegration();
+        dd(json_decode($response_sales));// response for all sales integrated
+        return new JsonResponse('sale send with total sales: ' . $response_sales );
+
+    }
     #[Route('/new/product', name: 'app_new_product')]
     public function index(Request $request, SluggerInterface $slugger, EntityManagerInterface $entityManager): Response
     {

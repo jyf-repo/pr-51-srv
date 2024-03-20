@@ -29,7 +29,6 @@ class BookingController extends AbstractController
     #[Route('/booking/edit_rent_category/{id}', name:'app_booking_edit_rent_category')]
     public function new_rent_category(Rentcategories $rentcategory=null, Request $request, EntityManagerInterface $entityManager)
     {
-
         $form = $this->createForm(RentcategoriesFormType::class, $rentcategory);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
