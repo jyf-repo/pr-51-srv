@@ -34,50 +34,13 @@ class LgoServiceJson{
             return $retour_curl;
         }
 
-        public function post_sale($num_vente){
+        public function post_sale($vente){
             $type = "VENTE";
             //$num_vente = 12341234; // != d'une vente existante
             $send_sale =  '<?xml version="1.0" encoding="UTF-8"?>
             <beldemande version="1.4" date="2018-03-27" format="INFACT" json="false">
               <infact>
-            <vente num_pharma="'.$this->login.'" numero_vente="'.$num_vente.'">
-               <client client_id="501">
-                  <nom><![CDATA[test]]></nom>
-                  <prenom><![CDATA[web]]></prenom>
-                  <adresse_facturation>
-                     <rue1><![CDATA[rue du test]]></rue1>
-                     <codepostal><![CDATA[54000]]></codepostal>
-                     <ville><![CDATA[Nancy]]></ville>
-                     <pays><![CDATA[FRANCE]]></pays>
-                     <destinataire>![CDATA[GPB TEST]]</destinataire>
-                  </adresse_facturation>
-                  <sexe><![CDATA[F]]></sexe>
-               </client>
-               <date_vente><![CDATA[2018-03-13T14:03:47]]></date_vente>
-               <montant_port_ht>0</montant_port_ht>
-               <tauxtva_port>20</tauxtva_port>
-               <total_ttc><![CDATA[0]]></total_ttc>
-               <exoneration_tva>0</exoneration_tva>
-               <lignevente numero_lignevente="1">
-                  <codeproduit><![CDATA[3596202024182]]></codeproduit>
-                  <designation_produit><![CDATA[Weleda onagre]]></designation_produit>
-                  <quantite><![CDATA[2]]></quantite>
-                  <prix_brut><![CDATA[9.99]]></prix_brut>
-                  <remise><![CDATA[20]]></remise>
-                  <prix_net><![CDATA[7.99]]></prix_net>
-                  <tauxtva><![CDATA[20]]></tauxtva>
-               </lignevente>
-               <lignevente numero_lignevente="2">
-                  <codeproduit><![CDATA[3596202024185]]></codeproduit>
-                  <designation_produit><![CDATA[Weleda test 2]]></designation_produit>
-                  <quantite><![CDATA[2]]></quantite>
-                  <prix_brut><![CDATA[54]]></prix_brut>
-                  <remise><![CDATA[0]]></remise>
-                  <prix_net><![CDATA[54]]></prix_net>
-                  <tauxtva><![CDATA[20]]></tauxtva>
-               </lignevente>
-              
-            </vente>
+            '.$vente.'
             </infact>
             </beldemande>';
 

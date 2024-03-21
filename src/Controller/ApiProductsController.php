@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Serializer\Encoder\DecoderInterface;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -61,9 +62,51 @@ class ApiProductsController extends AbstractController
     }
 
     #[Route('/lgp/api/send/sale', name:'api_lgp_sale')]
-    public function send_sale(LgoServiceJson $lgoServiceJson)
+    public function send_sale(LgoServiceJson $lgoServiceJson, SerializerInterface $serializer, DecoderInterface $decoder, EncoderInterface $encoder)
     {
-        $lgoServiceJson->post_sale('5555555');
+        $num_vente = '555555558';
+        $vente = '<vente num_pharma="'.$this->getParameter('login').'" numero_vente="'.$num_vente.'">
+                        <client client_id="501">
+                          <nom><![CDATA[test]]></nom>
+                          <prenom><![CDATA[web]]></prenom>
+                          <adresse_facturation>
+                             <rue1><![CDATA[rue du test]]></rue1>
+                             <codepostal><![CDATA[54000]]></codepostal>
+                             <ville><![CDATA[Nancy]]></ville>
+                             <pays><![CDATA[FRANCE]]></pays>
+                             <destinataire>![CDATA[GPB TEST]]</destinataire>
+                          </adresse_facturation>
+                          <sexe><![CDATA[F]]></sexe>
+                       </client>
+                       <date_vente><![CDATA[2018-03-13T14:03:47]]></date_vente>
+                       <montant_port_ht>0</montant_port_ht>
+                       <tauxtva_port>20</tauxtva_port>
+                       <total_ttc><![CDATA[0]]></total_ttc>
+                       <exoneration_tva>0</exoneration_tva>
+                       <lignevente numero_lignevente="1">
+                          <codeproduit><![CDATA[3401060160463]]></codeproduit>
+                          <designation_produit><![CDATA[Tielle Lite Pans hydrocel adh10x30cm B/10 ]]></designation_produit>
+                          <quantite><![CDATA[2]]></quantite>
+                          <prix_brut><![CDATA[56.84]]></prix_brut>
+                          <remise><![CDATA[20]]></remise>
+                          <prix_net><![CDATA[45.44]]></prix_net>
+                          <tauxtva><![CDATA[20]]></tauxtva>
+                       </lignevente>
+                       <lignevente numero_lignevente="2">
+                          <codeproduit><![CDATA[3401560504477]]></codeproduit>
+                          <designation_produit><![CDATA[LACTIBIANE REF GELU 10]]></designation_produit>
+                          <quantite><![CDATA[2]]></quantite>
+                          <prix_brut><![CDATA[11.40]]></prix_brut>
+                          <remise><![CDATA[0]]></remise>
+                          <prix_net><![CDATA[11.40]]></prix_net>
+                          <tauxtva><![CDATA[20]]></tauxtva>
+                       </lignevente>
+                   </vente>';
+        $venteArray = $decoder->decode($vente, 'xml');
+        //dd($venteArray);
+        $venteJson = $encoder->encode($venteArray, 'json');
+        dd($venteJson);
+        $lgoServiceJson->post_sale($vente);
         $response_sales = $lgoServiceJson->getResponseInvoiceIntegration();
         dd(json_decode($response_sales));// response for all sales integrated
         return new JsonResponse('sale send with total sales: ' . $response_sales );
