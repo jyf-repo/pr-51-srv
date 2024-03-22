@@ -3,29 +3,102 @@
 {% block title %}Fiche patient{% endblock %}
 
 {% block body %}
-<div class="container">
-    <p><strong>Prénom:</strong> {{ user.firstname }}</p>
-    <p><strong>Nom: </strong>{{ user.lastname }}</p>
-    <p><strong>Email: </strong>{{ user.email }}</p>
-    <p><strong>Téléphone: </strong>{{ user.phonenumber }}</p>
-    <p><strong>Prescriptions: </strong></p>
-    {% for prescription in user.prescriptions %}
-        <p><a href="{{ asset('uploads/prescriptions/' ~ prescription.prescriptionFileName) }}">{{ prescription.prescriptionFileName }}</a></p>
-    {% endfor %}
-    <div class="btn btn-primary"><a href="{{ path('app_upload_filePrescription', {'userId': user.id }) }}" style="color: white; text-decoration: none">Nouvelle prescription</a></div>
-    <hr>
-    <p><strong>Piluliers: </strong></p>
-    {% for pillbox in user.pillboxes %}
-        <div>
-            <p>{{ pillbox.start|date('d-m-Y') }}</p>
-            <p>{{ pillbox.end|date('d-m-Y') }}</p>
-            <p>{{ pillbox.comments }}</p>
-            <p>{{ pillbox.price }}</p>
+    <div class="container">
+        <h2>Gestion des services au patient</h2>
+        <div class="container" style="background-color: #abe5f1">
+        <h4>Patient: <a href="{{ path('app_edit_user', {'id' : user.id}) }}"><i class="bi bi-pencil-square"></i></a></h4>
+            <div class="row">
+                <div class="col">
+                    <strong>Prénom:</strong>
+                </div>
+                <div class="col">
+                    <strong>Nom: </strong>
+                </div>
+                <div class="col">
+                    <strong>Email: </strong>
+                </div>
+                <div class="col">
+                    <strong>Téléphone: </strong>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    {{ user.firstname }}
+                </div>
+                <div class="col">
+                    {{ user.lastname }}
+                </div>
+                <div class="col">
+                    {{ user.email }}
+                </div>
+                <div class="col">
+                    {{ user.phonenumber }}
+                </div>
+            </div>
         </div>
-    {% endfor %}
-    <div class="btn btn-primary"><a href="{{ path('app_new_pillbox') }}" style="color: white; text-decoration: none">Nouveau pilulier</a></div>
-    <hr>
-    <p><a href="{{ path('app_admin_users') }}">Retour vers administration</a></p>
-    <p><a href="{{ path('app_pillbox') }}">Retour vers clients</a></p>
-</div>
+
+        <div class="container" style="background-color: #fad4d9">
+            <h4>Prescriptions: <a href="{{ path('app_upload_filePrescription', {'userId': user.id }) }}"><i class="bi bi-plus-square-fill"></i></a></h4>
+            {% for prescription in user.prescriptions %}
+                <p><a href="{{ asset('uploads/prescriptions/' ~ prescription.prescriptionFileName) }}">{{ prescription.prescriptionFileName }}</a></p>
+            {% endfor %}
+        </div>
+
+        <div class="container" style="background-color: #aff1d8">
+        <h4>Piluliers: <a href="{{ path('app_new_pillbox') }}"><i class="bi bi-plus-square-fill"></i></a></h4>
+            <div class="row">
+                <div class="col">
+                    <strong>Début</strong>
+                </div>
+                <div class="col">
+                    <strong>Fin</strong>
+                </div>
+                <div class="col">
+                    <strong>Nom du pilulier</strong>
+                </div>
+                <div class="col">
+                    <strong>Prix du pilulier</strong>
+                </div>
+                <div class="col">
+                    <strong>Statut de paiement</strong>
+                </div>
+            </div>
+        {% for pillbox in user.pillboxes %}
+            <div class="row">
+                <div class="col">
+                    {{ pillbox.start|date('d-m-Y') }}
+                </div>
+                <div class="col">
+                    <p>{{ pillbox.end|date('d-m-Y') }}</p>
+                </div>
+                <div class="col">
+                    <p>{{ pillbox.comments }}</p>
+                </div>
+                <div class="col">
+                    <p>{{ pillbox.price }}€</p>
+                </div>
+                <div class="col">
+                    {% if pillbox.payed %}
+                    <p>Réglé</p>
+                    {% else %}
+                    Non réglé
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+        <div class="container" style="background-color: lightyellow">
+            <h4>Locations: <a href="#"><i class="bi bi-plus-square-fill"></i></a></h4>
+        </div>
+    </div>
+{% endblock %}
+{% block stylesheets %}
+    <style>
+        .container{
+            border-radius: 20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            padding: 15px;
+        }
+    </style>
 {% endblock %}

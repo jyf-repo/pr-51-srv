@@ -102,6 +102,7 @@ class ApiProductsController extends AbstractController
                           <tauxtva><![CDATA[20]]></tauxtva>
                        </lignevente>
                    </vente>';
+        //dd($vente);
         $venteArray = $decoder->decode($vente, 'xml');
         //dd($venteArray);
         $venteJson = $encoder->encode($venteArray, 'json');
