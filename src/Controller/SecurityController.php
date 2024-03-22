@@ -57,6 +57,7 @@ class SecurityController extends AbstractController
     // Modify User
     #[Route('/user/new', name: 'app_new_user')]
     #[Route('/user/{id}/edit', name: 'app_edit_user')]
+    #[IsGranted('ROLE_SUPER_ADMIN', message: 'Accés interdit')]
     public function edit_user(User $user=null, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager)
     {
         $form = $this->createForm(UserFormType::class, $user);
