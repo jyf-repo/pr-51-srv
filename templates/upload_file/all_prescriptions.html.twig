@@ -5,22 +5,55 @@
 {% block body %}
     <div class="container">
         <h3>Liste des ordonnances pour chaque client:</h3>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    id
+                </div>
+                <div class="col">
+                    Email
+                </div>
+                <div class="col">
+                    Prénom
+                </div>
+                <div class="col">
+                    Nom
+                </div>
+                <div class="col">
+                    Voir
+                </div>
+                <div class="col">
+                    Supprimer
+                </div>
+            </div>
+
         {% for prescription in prescriptions %}
             <div class="row">
-                <div>
-                    <strong>
-                        {{ prescription.userId.id }}:
-                        {% for user in users %}
-                            {% if user.id == prescription.userId.id %}
-                                {{ user.email }} {{ user.firstname }} {{ user.lastname }}
-                            {% endif %}
-                        {% endfor %}
-                    </strong>
+                <div class="col">
+                    {{ prescription.userId.id }}
                 </div>
-                <a href="{{ asset('uploads/prescriptions/' ~ prescription.prescriptionFileName) }}">Voir</a>
-                <a href="{{ path('app_delete_prescription', {'idPrescription': prescription.id }) }}">Supprimer</a>
+                {% for user in users %}
+                    {% if user.id == prescription.userId.id %}
+                        <div class="col">
+                            {{ user.email }}
+                        </div>
+                        <div class="col">
+                            {{ user.firstname }}
+                        </div>
+                        <div class="col">
+                            {{ user.lastname }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                <div class="col">
+                    <a href="{{ asset('uploads/prescriptions/' ~ prescription.prescriptionFileName) }}">Voir</a>
+                </div>
+                <div class="col">
+                    <a href="{{ path('app_delete_prescription', {'idPrescription': prescription.id }) }}">Supprimer</a>
+                </div>
             </div>
         {%  endfor %}
+        </div>
     </div>
 {% endblock %}
 
