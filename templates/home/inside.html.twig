@@ -1,7 +1,46 @@
 {% extends 'base.html.twig' %}
-
+{% block stylesheets %}
+    <style>
+        .col{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 20px;
+            height: 250px;
+        }
+        a{
+            color: black;
+            text-decoration: none;
+        }
+        #square1{
+            background-color: #f8d9de
+        }
+        #square2{
+            background-color: #daf5e6
+        }
+        #square3{
+            background-color: #f8f8dc
+        }
+        #square4{
+            background-color: black;
+            a{
+                color: white;
+            }
+        }
+    </style>
+{% endblock %}
 {% block body %}
-    <h1>Inside</h1>
+    <div class="container">
+        <h1>Tableau de bord</h1>
+        <div class="row">
+            <div class="col" id="square1"><a href="{{ path('app_show_prescriptions') }}"><h3>Prescriptions</h3></a></div>
+            <div class="col" id="square2"><a href="{{ path('app_pillbox') }}"><h3>Piluliers</h3></a></div>
+        </div>
+        <div class="row">
+            <div class="col" id="square3"><a href="{{ path('app_booking') }}"><h3>Locations</h3></a></div>
+            <div class="col" id="square4"><a href="{{ path('app_products_list') }}"><h3>Produits</h3></a></div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block title %}

@@ -4,19 +4,22 @@
 
 {% block body %}
     <div class="container">
-        <div id="title" class="row">
+        <h2>Catégories de materiel à louer:</h2>
+    </div>
+    <div class="container" id="content">
+        <div class="row">
             <div class="col">
-                id
+                <strong>id</strong>
             </div>
             <div class="col">
-                Nom
+                <strong>Nom</strong>
             </div>
             <div class="col">
-                Description
+                <strong>Description</strong>
             </div>
         </div>
         {% for category in rentcategories %}
-            <div id="content" class="row">
+            <div class="row">
                 <div class="col">
                     <a href="{{ path('app_booking_edit_rent_category', {'id' : category.id}) }}">{{ category.id }}</a>
                 </div>
@@ -32,11 +35,10 @@
 {% endblock %}
 {% block stylesheets %}
     <style>
-        #title{
-            background-color: #e1efcb;
-        }
-        #content{
-            background-color: #c8e8ef;
-        }
+       #content{
+           background-color: #f3f3d2;
+           border-radius: 20px;
+           padding: 15px;
+       }
     </style>
 {% endblock %}

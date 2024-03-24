@@ -4,65 +4,76 @@
 
 {% block body %}
     <div class="container">
-        <div class="row bg-success-subtle">
-                <div class="col-3">
-                    Email
-                </div>
-                <div class="col-2">
-                    Rôle
-                </div>
-                <div class="col">
-                    Key
-                </div>
-                <div class="col">
-                    vérifié
-                </div>
-                <div class="col">
-
-                </div>
-                <div class="col">
-
-                </div>
-            </div>
+        <h3>Liste des inscrits:</h3>
     </div>
-    {% for user in users %}
-        <div class="container bg-info-subtle">
-            <div class="row">
-                <div class="col-3">
-                    <a href="{{ path('app_all_user', {'id': user.id}) }}" title="Voir profil">{{ user.email }}</a>
-                </div>
-                <div class="col-2">
-                    {% for role in user.roles %}
-                        {% if role is same as 'ROLE_CLIENT' %}
-                            <p>client</p>
-                            {% set break = true %}
-                        {% elseif role is same as 'ROLE_SUPER_ADMIN' %}
-                            <p>supadmin</p>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-                <div class="col dropdown">
-                    <div class="dropdown-toggle" type="button" id="dropdownEye" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-eye"></i>
-                    </div>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownEye">
-                        <li>{{ user.apiKeyAuth }}</li>
-                    </ul>
-                </div>
-                <div class="col">
-                    {% if user.verified == null %}
-                        <p>Non</p>
-                    {% else %}
-                        <p>Oui</p>
-                    {% endif %}
-                </div>
-                <div class="col">
-                    <a href="{{path('app_edit_user', {'id': user.id }) }}"><i class="bi bi-pencil-square" title="Modifier"></i></a>
-                </div>
-                <div class="col">
-                    <a href="{{ path('app_users_del', {'id': user.id}) }}" title="Supprimer"><i class="bi bi-trash"></i></a>
-                </div>
+    <div class="container" id="content">
+        <div class="row">
+            <div class="col-3">
+                <strong>Email</strong>
+            </div>
+            <div class="col-2">
+                <strong>Rôle</strong>
+            </div>
+            <div class="col">
+                <strong>Key</strong>
+            </div>
+            <div class="col">
+                <strong>vérifié</strong>
+            </div>
+            <div class="col">
+
+            </div>
+            <div class="col">
+
             </div>
         </div>
-    {% endfor %}
+        {% for user in users %}
+        <div class="row">
+            <div class="col-3">
+                <a href="{{ path('app_all_user', {'id': user.id}) }}" title="Voir profil">{{ user.email }}</a>
+            </div>
+            <div class="col-2">
+                {% for role in user.roles %}
+                    {% if role is same as 'ROLE_CLIENT' %}
+                        <p>client</p>
+                        {% set break = true %}
+                    {% elseif role is same as 'ROLE_SUPER_ADMIN' %}
+                        <p>supadmin</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="col dropdown">
+                <div class="dropdown-toggle" type="button" id="dropdownEye" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-eye"></i>
+                </div>
+                <ul class="dropdown-menu" aria-labelledby="dropdownEye">
+                    <li>{{ user.apiKeyAuth }}</li>
+                </ul>
+            </div>
+            <div class="col">
+                {% if user.verified == null %}
+                    <p>Non</p>
+                {% else %}
+                    <p>Oui</p>
+                {% endif %}
+            </div>
+            <div class="col">
+                <a href="{{path('app_edit_user', {'id': user.id }) }}"><i class="bi bi-pencil-square" title="Modifier"></i></a>
+            </div>
+            <div class="col">
+                <a href="{{ path('app_users_del', {'id': user.id}) }}" title="Supprimer"><i class="bi bi-trash"></i></a>
+            </div>
+        </div>
+        {% endfor %}
+        </div>
+{% endblock %}
+{% block stylesheets %}
+    <style>
+        #content{
+            background-color: #cfe4f1;
+            border-radius: 20px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+    </style>
 {% endblock %}

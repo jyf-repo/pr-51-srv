@@ -6,7 +6,19 @@
 
 {% block body %}
     <div class="container">
+        <h2>Facturer un pilulier:</h2>
+    </div>
+    <div class="container" id="content">
         {{ form(pillbox_form) }}
     </div>
 {% endblock %}
-
+{% block stylesheets %}
+    <style>
+        #content{
+            background-color: #dcfad6;
+            border-radius: 20px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+    </style>
+{% endblock %}

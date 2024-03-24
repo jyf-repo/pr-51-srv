@@ -4,18 +4,23 @@
 
 {% block body %}
     <div class="container">
-        <div class="row bg-success-subtle">
-            <div class="col">
-                Nom
-            </div>
-            <div class="col">
-                Prénom
-            </div>
-            <div class="col-3">
-                email
+        <h2>Patients avec pilulier:</h2>
+    </div>
+    <div class="container" id="content">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-2">
+                <strong>Nom</strong>
             </div>
             <div class="col-2">
-                Téléphone
+                <strong>Prénom</strong>
+            </div>
+            <div class="col-4">
+                <strong>email</strong>
+            </div>
+            <div class="col-2">
+                <strong>Téléphone</strong>
             </div>
             <div class="col">
 
@@ -32,15 +37,15 @@
         </div>
     </div>
     {% for app_user in app_users %}
-        <div class="container bg-info-subtle">
+        <div class="container">
             <div class="row">
-                <div class="col">
+                <div class="col-2">
                     {{ app_user.lastname }}
                 </div>
-                <div class="col">
+                <div class="col-2">
                     {{ app_user.firstname }}
                 </div>
-                <div class="col-3">
+                <div class="col-4">
                     {{ app_user.email }}
                 </div>
                 <div class="col-2">
@@ -61,4 +66,16 @@
             </div>
         </div>
     {% endfor %}
+    </div>
+{% endblock %}
+{% block stylesheets %}
+    <style>
+        #content{
+            background-color: #dcfad6;
+            border-radius: 20px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+    </style>
+
 {% endblock %}

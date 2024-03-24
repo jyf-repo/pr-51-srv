@@ -64,9 +64,83 @@ class ApiProductsController extends AbstractController
     #[Route('/lgp/api/send/sale', name:'api_lgp_sale')]
     public function send_sale(LgoServiceJson $lgoServiceJson, SerializerInterface $serializer, DecoderInterface $decoder, EncoderInterface $encoder)
     {
+        // from array to xml invoice
+        $array_num_vente = 5555555562;
+        $array_client = [
+            "client" => [
+                "@client_id" => 501,
+                "nom" =>"test",
+                "prenom" => "web",
+                "adresse_facturation"=> [
+                    "rue1"=>"rue du test",
+                    "codepostal"=>"54000",
+                    "ville"=>"Nancy",
+                    "pays"=>"FRANCE",
+                    "destinataire"=>"![CDATA[GPB TEST]]"
+                ],
+            "sexe"=>"F"
+            ]
+        ];
+        //dd(json_encode($array_client));
+        $array_date = [
+            "date_vente" => "2018-03-13T14:03:47",
+        ];
+        $array_port = [
+            "montant_port_ht"=>"0",
+            "tauxtva_port"=>"20",
+            "total_ttc"=>"0",
+            "exoneration_tva"=>"0"
+        ];
+        $array_lignes_vente = [
+            "lignevente"=>[
+                [
+                    "@numero_lignevente"=>1,
+                    "codeproduit"=>"3401060160463",
+                    "designation_produit"=>"Tielle Lite Pans hydrocel adh10x30cm B/10 ",
+                    "quantite"=>"2",
+                    "prix_brut"=>"56.84",
+                    "remise"=>"20",
+                    "prix_net"=>"45.44",
+                    "tauxtva"=>"20"
+                ],
+                [
+                    "@numero_lignevente"=>2,
+                    "codeproduit"=>"3401560504477",
+                    "designation_produit"=>"LACTIBIANE REF GELU 10",
+                    "quantite"=>"2",
+                    "prix_brut"=>"11.40",
+                    "remise"=>"0",
+                    "prix_net"=>"11.40",
+                    "tauxtva"=>"20"
+                ]
+            ]
+        ];
+
+        $array_init = [
+            "@num_pharma" =>intval($this->getParameter('login')),
+            "@numero_vente" => $array_num_vente
+        ];
+        $array_vente = array_merge($array_init, $array_client, $array_date, $array_port, $array_lignes_vente);
+
+        //dd($array_vente);
+        $xml_vente = $encoder->encode($array_vente, 'xml', [
+            'xml_format_output' => true,
+            'xml_root_node_name' => 'vente',
+            'encoder_ignored_node_types' => [
+                \XML_PI_NODE, // removes XML declaration (the leading xml tag)
+            ],
+        ]);
+
+        //dd($xml_vente);
+        $lgoServiceJson->post_sale($xml_vente);
+        $response_sales = $lgoServiceJson->getResponseInvoiceIntegration();
+        $all_sales = json_decode($response_sales)->belreponse->facint->vente;
+        dd($all_sales);// response for all sales integrated
+
+
+        // --------------------------------   modele xml -------------------------------------------
         $num_vente = '555555558';
-        $vente = '<vente num_pharma="'.$this->getParameter('login').'" numero_vente="'.$num_vente.'">
-                        <client client_id="501">
+        $client = '<client client_id="501">
                           <nom><![CDATA[test]]></nom>
                           <prenom><![CDATA[web]]></prenom>
                           <adresse_facturation>
@@ -77,13 +151,13 @@ class ApiProductsController extends AbstractController
                              <destinataire>![CDATA[GPB TEST]]</destinataire>
                           </adresse_facturation>
                           <sexe><![CDATA[F]]></sexe>
-                       </client>
-                       <date_vente><![CDATA[2018-03-13T14:03:47]]></date_vente>
-                       <montant_port_ht>0</montant_port_ht>
+                       </client>';
+        $date_vente = '<date_vente><![CDATA[2018-03-13T14:03:47]]></date_vente>';
+        $port = '<montant_port_ht>0</montant_port_ht>
                        <tauxtva_port>20</tauxtva_port>
                        <total_ttc><![CDATA[0]]></total_ttc>
-                       <exoneration_tva>0</exoneration_tva>
-                       <lignevente numero_lignevente="1">
+                       <exoneration_tva>0</exoneration_tva>';
+        $lignes_vente = '<lignevente numero_lignevente="1">
                           <codeproduit><![CDATA[3401060160463]]></codeproduit>
                           <designation_produit><![CDATA[Tielle Lite Pans hydrocel adh10x30cm B/10 ]]></designation_produit>
                           <quantite><![CDATA[2]]></quantite>
@@ -100,17 +174,24 @@ class ApiProductsController extends AbstractController
                           <remise><![CDATA[0]]></remise>
                           <prix_net><![CDATA[11.40]]></prix_net>
                           <tauxtva><![CDATA[20]]></tauxtva>
-                       </lignevente>
-                   </vente>';
-        //dd($vente);
+                       </lignevente>';
+        $vente = '<vente num_pharma="'.$this->getParameter('login').'" numero_vente="'.$num_vente.'">'.
+            $client.
+            $date_vente.
+            $port.
+            $lignes_vente.
+            '</vente>';
+        dd($vente);
         $venteArray = $decoder->decode($vente, 'xml');
         //dd($venteArray);
-        $venteJson = $encoder->encode($venteArray, 'json');
-        dd($venteJson);
-        $lgoServiceJson->post_sale($vente);
-        $response_sales = $lgoServiceJson->getResponseInvoiceIntegration();
-        dd(json_decode($response_sales));// response for all sales integrated
-        return new JsonResponse('sale send with total sales: ' . $response_sales );
+//        $venteJson = $encoder->encode($venteArray, 'json');
+//        dd(gettype($venteJson));
+//        dd($json_vente);
+//        $lgoServiceJson->post_sale($vente);
+//        $response_sales = $lgoServiceJson->getResponseInvoiceIntegration();
+//        $all_sales = json_decode($response_sales)->belreponse->facint->vente;
+//        dd($all_sales);// response for all sales integrated
+        return new JsonResponse('sale send with total sales: ' . $all_sales );
 
     }
     #[Route('/new/product', name: 'app_new_product')]

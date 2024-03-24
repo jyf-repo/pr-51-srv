@@ -4,42 +4,61 @@
 
 {% block stylesheets %}
     <style>
+        .row{
+            margin-top: 20px;
+            padding: 30px;
+            background-color: #e4faee;
+            border-radius: 20px;
+        }
+        .col{
+            display: flex;
+            justify-content: center;
+        }
+        #signin_image{
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+        }
         .form-signin {
             width: 100%;
             max-width: 330px;
             padding: 15px;
-            margin: 0 auto;
         }
     </style>
 {% endblock %}
 
 {% block body %}
-    <div class="container">
+    <div class="container" id="content">
         <div class="row">
-            <div class="bg-light mt-4 p-4">
-                <form class="form-signin" method="post">
-                    {% if error %}
-                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                    {% endif %}
+            <div class="col">
+
+                    <form class="form-signin" method="post">
+                        {% if error %}
+                            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% endif %}
 
 
-                    <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
-                    <label for="inputEmail">Email</label>
-                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-                    <label for="inputPassword">Mot de passe</label>
-                    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                        <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
+                        <label for="inputEmail">Email</label>
+                        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                        <label for="inputPassword">Mot de passe</label>
+                        <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
 
-                    <input type="hidden" name="_csrf_token"
-                           value="{{ csrf_token('authenticate') }}"
-                    >
+                        <input type="hidden" name="_csrf_token"
+                               value="{{ csrf_token('authenticate') }}"
+                        >
 
-                    <a href="{{ path('app_forgot_password_request') }}">Mot de passe oublié</a>
-                    <div>
-                        <button class="btn btn-sm btn-primary" type="submit">
-                            Connexion
-                        </button>
-                    </div>
-                </form>
+                        <a href="{{ path('app_forgot_password_request') }}">Mot de passe oublié</a>
+                        <div>
+                            <button class="btn btn-sm btn-primary" type="submit">
+                                Connexion
+                            </button>
+                        </div>
+                    </form>
+
+            </div>
+            <div class="col">
+                <img src="{{ asset('assets/images/preparation.jpg') }}" id="signin_image" alt="">
             </div>
         </div>
     </div>

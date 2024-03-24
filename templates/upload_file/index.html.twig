@@ -4,7 +4,20 @@
 
 {% block body %}
  <div class="container">
-  {{ form(prescriptionForm) }}
-  <a href="{{ path('app_pillbox') }}">Retour</a>
+  <h2>Insérer la prescription du patient:</h2>
  </div>
+ <div class="container" id="content">
+   {{ form(prescriptionForm) }}
+ </div>
+{% endblock %}
+
+{% block stylesheets %}
+ <style>
+  #content{
+   background-color: #f5dbdf;
+   border-radius: 20px;
+   padding: 15px;
+   margin-top: 20px;
+  }
+ </style>
 {% endblock %}

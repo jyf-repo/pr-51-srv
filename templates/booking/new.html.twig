@@ -2,10 +2,22 @@
 
 {% block body %}
     <div class="container">
+        <h4>Nouvelle catégorie de materiel:</h4>
+    </div>
+    <div class="container" id="form">
         {{ form(form_rent_category) }}
     </div>
 {% endblock %}
-
+{% block stylesheets %}
+    <style>
+        #form{
+            background-color: #efefcc;
+            border-radius: 20px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+    </style>
+{% endblock %}
 {% block title %}
 
 {% endblock %}

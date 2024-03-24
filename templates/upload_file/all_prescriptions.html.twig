@@ -4,26 +4,26 @@
 
 {% block body %}
     <div class="container">
-        <h3>Liste des ordonnances pour chaque client:</h3>
-        <div class="container">
+        <h3>Patients avec ordonnance:</h3>
+        <div class="container" id="content">
             <div class="row">
                 <div class="col">
-                    id
+                    <strong>id</strong>
                 </div>
                 <div class="col">
-                    Email
+                    <strong>Email</strong>
                 </div>
                 <div class="col">
-                    Prénom
+                    <strong>Prénom</strong>
                 </div>
                 <div class="col">
-                    Nom
+                    <strong>Nom</strong>
                 </div>
                 <div class="col">
-                    Voir
+                    <strong>Voir</strong>
                 </div>
                 <div class="col">
-                    Supprimer
+                    <strong>Supprimer</strong>
                 </div>
             </div>
 
@@ -55,5 +55,15 @@
         {%  endfor %}
         </div>
     </div>
+{% endblock %}
+{% block stylesheets %}
+    <style>
+        #content{
+            background-color: #f5dbdf;
+            border-radius: 20px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+    </style>
 {% endblock %}
 

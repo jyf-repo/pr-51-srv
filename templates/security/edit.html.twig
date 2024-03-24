@@ -2,10 +2,20 @@
 
 {% block body %}
 <div class="container">
+    <h1>Nouvel utilisateur</h1>
     {{ form(edit_form) }}
 </div>
 {% endblock %}
-
+{% block stylesheets %}
+    <style>
+        .container{
+            background-color: #cfe4f1;
+            border-radius: 20px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+    </style>
+{% endblock %}
 {% block title %}
 
 {% endblock %}
