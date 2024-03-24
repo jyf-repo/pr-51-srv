@@ -3,12 +3,12 @@
 {% block body %}
     <div class="container">
          {% for product in products %}
-             {% dump(product) %}
+{#             {% dump(product) %}#}
              <div class="card" style="width: 18rem;">
                  <img src="{{ product["photos"][0]['formats']['medium'] }}" class="card-img-top" alt="{{ product['name']['fr'] }}">
                  <div class="card-body">
                      <h5 class="card-title">{{ product['name']['fr'] }}</h5>
-                     {% dump(product['descriptions']) %}
+{#                     {% dump(product['descriptions']) %}#}
                      {% if product.descriptions[1] is defined %}
                          <!--------------- raw filter in twig to escape html tags from the variable ------------->
                          <p class="card-text">{{ product['descriptions'][1]['content']['fr']|raw }}</p>
