@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="container">
-        <h2>Gestion des services au patient</h2>
+        <h2>Tableau de bord de {{ user.lastname }}:</h2>
         <div class="container" style="background-color: #abe5f1">
         <h4>Patient: <a href="{{ path('app_edit_user', {'id' : user.id}) }}"><i class="bi bi-pencil-square"></i></a></h4>
             <div class="row">
@@ -39,8 +39,17 @@
 
         <div class="container" style="background-color: #fad4d9">
             <h4>Prescriptions: <a href="{{ path('app_upload_filePrescription', {'userId': user.id }) }}"><i class="bi bi-plus-square-fill"></i></a></h4>
+            <div class="row">
+                <div class="col"><strong>Date de l'ordonnance</strong></div>
+                <div class="col"><strong>Nom du medecin</strong></div>
+                <div class="col"><strong>Voir</strong></div>
+            </div>
             {% for prescription in user.prescriptions %}
-                <p><a href="{{ asset('uploads/prescriptions/' ~ prescription.prescriptionFileName) }}">{{ prescription.prescriptionFileName }}</a></p>
+                <div class="row">
+                    <div class="col">{{ prescription.prescriptionDate }}</div>
+                    <div class="col">{{ prescription.doctor.lastname }}</div>
+                    <div class="col"><a href="{{ asset('uploads/prescriptions/' ~ prescription.prescriptionFileName) }}">Voir</a></div>
+                </div>
             {% endfor %}
         </div>
 

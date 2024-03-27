@@ -39,9 +39,10 @@ class UploadFileController extends AbstractController
 
 
     #[Route('/upload/filePrescription', name: 'app_upload_filePrescription')]
-    public function index(Request $request, FileUploader $fileUploader, EntityManagerInterface $entityManager): Response
+    #[Route('/upload/{id}/edit/filePrescription', name: 'app_upload_edit_filePrescription')]
+    public function index(Prescription $prescription=null, Request $request, FileUploader $fileUploader, EntityManagerInterface $entityManager): Response
     {
-        $prescription = new Prescription();
+
         $form = $this->createForm(PrescriptionFormType::class, $prescription);
         $form->handleRequest($request);
 
@@ -147,7 +148,7 @@ class UploadFileController extends AbstractController
         $entityManager->persist($prescription);
         $entityManager->flush();
 
-        $emailService->send_email($user_identify->getEmail(), 'Nouvelle ordonnance', 'Une ordonnance a été deposée dans l\'espace client');
+        $emailService->send_email($user_identify->getEmail(), 'Nouvelle ordonnance', 'Une ordonnance a été deposée dans l\'espace client sur https://pr-51-srv.medicontis.com');
         return new JsonResponse('ordonnance envoyée!!');
     }
 

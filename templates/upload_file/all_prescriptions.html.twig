@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="container">
-        <h3>Patients avec ordonnance:</h3>
+        <h3>Ordonnances:</h3>
         <div class="container" id="content">
             <div class="row">
                 <div class="col">
@@ -20,7 +20,13 @@
                     <strong>Nom</strong>
                 </div>
                 <div class="col">
-                    <strong>Voir</strong>
+                    <strong>Nom Medecin</strong>
+                </div>
+                <div class="col">
+                    <strong>Date de l'ordonnance</strong>
+                </div>
+                <div class="col">
+                    <strong>Ordonnance</strong>
                 </div>
                 <div class="col">
                     <strong>Supprimer</strong>
@@ -45,6 +51,16 @@
                         </div>
                     {% endif %}
                 {% endfor %}
+                <div class="col">
+                    {% if  prescription.doctor.id == null %}
+                        pas de medecin
+                    {% else %}
+                        {{ prescription.doctor.lastname }}
+                    {% endif %}
+                </div>
+                <div class="col">
+                    {{ prescription.prescriptionDate }}
+                </div>
                 <div class="col">
                     <a href="{{ asset('uploads/prescriptions/' ~ prescription.prescriptionFileName) }}">Voir</a>
                 </div>

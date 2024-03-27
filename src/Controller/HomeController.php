@@ -14,21 +14,13 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class HomeController extends AbstractController
 {
-    #[Route('/', name: 'app_home')]
-    public function index(): Response
-    {
-        return $this->render('home/index.html.twig', [
-
-        ]);
-    }
 
     #[Route('/admin/inside', name: 'app_inside')]
-    #[IsGranted('ROLE_ADMIN', message: 'Accés interdit')]
+    #[IsGranted('ROLE_USER', message: 'Accés interdit')]
     public function inside(): Response
     {
         return $this->render(
             'home/inside.html.twig', [
-
         ]);
     }
 

@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DoctorController!{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h4>Liste des médecins: <a href="{{ path('app_doctor_new') }}"><i class="bi bi-plus-square-fill"></i></a></h4>
+
+        <div class="row">
+            <div class="col"><strong>Nom</strong></div>
+            <div class="col"><strong>Prénom</strong></div>
+            <div class="col"><strong>rpps</strong></div>
+            <div class="col"><strong>finess</strong></div>
+            <div class="col"><strong>téléphone</strong></div>
+            <div class="col"><strong>email</strong></div>
+            <div class="col"><strong>Modifier</strong></div>
+        </div>
+        {% for doctor in doctors %}
+        <div class="row">
+            <div class="col">{{ doctor.lastname }}</div>
+            <div class="col">{{ doctor.firstname }}</div>
+            <div class="col">{{ doctor.rpps }}</div>
+            <div class="col">{{ doctor.finess }}</div>
+            <div class="col">{{ doctor.email }}</div>
+            <div class="col">{{ doctor.phone }}</div>
+            <div class="col"><a href="{{ path('app_doctor_edit', {'id': doctor.id}) }}"><i class="bi bi-pencil-square"></i></a></div>
+        </div>
+
+    {% endfor %}
+</div>
+{% endblock %}

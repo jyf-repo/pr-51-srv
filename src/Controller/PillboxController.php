@@ -58,7 +58,7 @@ class PillboxController extends AbstractController
     }
 
     #[Route('/api/pillbox/paid/{idUser}', name: 'app_user_pillbox')]
-    public function user_pillbox(Request $request, PillboxRepository $pillboxRepository, EntityManagerInterface $entityManager): Response
+    public function user_pillbox($idUser, Request $request, PillboxRepository $pillboxRepository, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
     {
         $req = $request->getContent();
         $pillboxes_paid = json_decode($req);
@@ -70,6 +70,12 @@ class PillboxController extends AbstractController
             $entityManager->flush();
         }
 
-        return new JsonResponse($pillboxes_paid);
+        // invoice elements (to insert in lgo):
+        $user = $userRepository->findOneBy(['id' => $idUser]);
+        $userEmail = $user->getEmail(); // example to insert total address
+        $sale_number  = $pillbox->getId();
+        $invoiceDate = date_create('now')->format('Y-m-d H:i:s');
+        $transport = 0;
+        return new JsonResponse([$sale_number, $pillboxes_paid, $userEmail, $invoiceDate, $transport]);
     }
 }

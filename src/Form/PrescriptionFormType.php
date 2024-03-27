@@ -2,10 +2,13 @@
 
 namespace App\Form;
 
+use App\Entity\Doctor;
 use App\Entity\Prescription;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -18,7 +21,7 @@ class PrescriptionFormType extends AbstractType
     {
         $builder
             ->add('prescriptionFileName', FileType::class, [
-                'label'=> 'Charger une prescription en pdf',
+                'label'=> 'Insérer la prescription:',
                 'required' => true,
                 'constraints' => [
                     new File([
@@ -31,9 +34,18 @@ class PrescriptionFormType extends AbstractType
                     ])
                 ],
             ])
+            ->add('prescriptionDate', DateType::class, [
+                'label' => 'Date de l\'ordonnance'
+            ])
             ->add('userId', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => 'email',
+                'label' => 'Patient: (choix par email)'
+            ])
+            ->add('doctor', EntityType::class, [
+                'class' => Doctor::class,
+                'choice_label' => 'lastname',
+                'label' => 'Medecin'
             ])
             ->add('save', SubmitType::class, [
                 'label' => 'Valider'
