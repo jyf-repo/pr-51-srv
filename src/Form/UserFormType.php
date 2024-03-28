@@ -10,6 +10,8 @@ use Symfony\Component\Form\ChoiceList\View\ChoiceListView;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -25,7 +27,8 @@ class UserFormType extends AbstractType
                 'choices' => [
                     'Super Administrateur' => 'ROLE_SUPER_ADMIN',
                     'Administrateur' => 'ROLE_ADMIN',
-                    'Client' => 'ROLE_USER',
+                    'Pharmacie' => 'ROLE_PHARMA',
+                    'Client' => 'ROLE_CLIENT',
                 ],
                 // si multiple et expanded à false, alors menu déroulant
                 // si multiple true et expanded false alors liste
@@ -34,7 +37,7 @@ class UserFormType extends AbstractType
                 'expanded' => true,
                 'label' => 'Rôles'
             ])
-            ->add('password', HiddenType::class)
+            ->add('password', )
             ->add('isVerified')
             ->add('api_key_auth')
             ->add('firstname')

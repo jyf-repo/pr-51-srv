@@ -60,12 +60,22 @@ class SecurityController extends AbstractController
     #[IsGranted('ROLE_SUPER_ADMIN', message: 'Accés interdit')]
     public function edit_user(User $user=null, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager)
     {
+        if($user == null){
+            $user = new User();
+        }
         $form = $this->createForm(UserFormType::class, $user);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-
-            $user = $form->getData();
+            //dd($form->get('password')->getData());
+            //dd($user);
+            // encode the plain password
+            $user->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $user,
+                    $form->get('password')->getData()
+                )
+            );
 
             $entityManager->persist($user);
             $entityManager->flush();

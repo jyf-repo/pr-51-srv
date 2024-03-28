@@ -59,7 +59,7 @@
                     {% endif %}
                 </div>
                 <div class="col">
-                    {{ prescription.prescriptionDate }}
+                    {{ prescription.prescriptionDate | date("d/m/Y") }}
                 </div>
                 <div class="col">
                     <a href="{{ asset('uploads/prescriptions/' ~ prescription.prescriptionFileName) }}">Voir</a>

@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Pillbox;
+use App\Entity\User;
 use App\Form\PillboxFormType;
 use App\Repository\PillboxRepository;
 use App\Repository\UserRepository;
+use App\Service\EmailService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -39,7 +41,7 @@ class PillboxController extends AbstractController
         return $this->json($allPillboxJson);
     }
     #[Route('/pillbox/new', name: 'app_new_pillbox')]
-    public function new_pillbox(Request $request, EntityManagerInterface $entityManager): Response
+    public function new_pillbox(UserRepository $userRepository, Request $request, EntityManagerInterface $entityManager, EmailService $emailService): Response
     {
         $pillbox = new Pillbox();
         $form = $this->createForm(PillboxFormType::class);
@@ -50,6 +52,9 @@ class PillboxController extends AbstractController
             $entityManager->persist($pillbox);
             $entityManager->flush();
 
+            $user = $userRepository->findOneBy(['id' => $pillbox->getUserId()]);
+            $userEmail = $user->getEmail();
+            $emailService->send_email($userEmail, 'A régler: Votre prestation de pilulier', 'Nous vous remercions de bien vouloir régler votre prestation de pilulier sur votre espace client');
             return $this->redirectToRoute('app_pillbox');
         }
         return $this->render('pillbox/new.html.twig', [

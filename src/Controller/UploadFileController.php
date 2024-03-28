@@ -42,7 +42,9 @@ class UploadFileController extends AbstractController
     #[Route('/upload/{id}/edit/filePrescription', name: 'app_upload_edit_filePrescription')]
     public function index(Prescription $prescription=null, Request $request, FileUploader $fileUploader, EntityManagerInterface $entityManager): Response
     {
-
+        if($prescription == null) {
+            $prescription = new Prescription();
+        };
         $form = $this->createForm(PrescriptionFormType::class, $prescription);
         $form->handleRequest($request);
 

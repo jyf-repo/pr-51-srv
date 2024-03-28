@@ -34,11 +34,13 @@
             </div>
             <div class="col-2">
                 {% for role in user.roles %}
-                    {% if role is same as 'ROLE_CLIENT' %}
-                        <p>client</p>
+                    {% if role is same as 'ROLE_SUPER_ADMIN' %}
+                        <p>Super administrateur</p>
                         {% set break = true %}
-                    {% elseif role is same as 'ROLE_SUPER_ADMIN' %}
-                        <p>supadmin</p>
+                    {% elseif role is same as 'ROLE_PHARMA' %}
+                        <p>Pharmacie</p>
+                    {% elseif role is same as 'ROLE_CLIENT' %}
+                        <p>client</p>
                     {% endif %}
                 {% endfor %}
             </div>

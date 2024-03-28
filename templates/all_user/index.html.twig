@@ -5,7 +5,7 @@
 {% block body %}
     <div class="container">
         <h2>Tableau de bord de {{ user.lastname }}:</h2>
-        <div class="container" style="background-color: #abe5f1">
+        <div class="container" style="background-color: #d0eff6">
         <h4>Patient: <a href="{{ path('app_edit_user', {'id' : user.id}) }}"><i class="bi bi-pencil-square"></i></a></h4>
             <div class="row">
                 <div class="col">
@@ -37,7 +37,7 @@
             </div>
         </div>
 
-        <div class="container" style="background-color: #fad4d9">
+        <div class="container" style="background-color: #f6dadd">
             <h4>Prescriptions: <a href="{{ path('app_upload_filePrescription', {'userId': user.id }) }}"><i class="bi bi-plus-square-fill"></i></a></h4>
             <div class="row">
                 <div class="col"><strong>Date de l'ordonnance</strong></div>
@@ -53,7 +53,7 @@
             {% endfor %}
         </div>
 
-        <div class="container" style="background-color: #aff1d8">
+        <div class="container" style="background-color: #d9f8ed">
         <h4>Piluliers: <a href="{{ path('app_new_pillbox') }}"><i class="bi bi-plus-square-fill"></i></a></h4>
             <div class="row">
                 <div class="col">
@@ -96,7 +96,7 @@
             </div>
         {% endfor %}
         </div>
-        <div class="container" style="background-color: lightyellow">
+        <div class="container" style="background-color: #fafad8">
             <h4>Locations: <a href="#"><i class="bi bi-plus-square-fill"></i></a></h4>
         </div>
     </div>
